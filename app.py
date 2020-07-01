@@ -58,7 +58,7 @@ class Run_model :
         #dataset = dataset.iloc[: , 5:]
         dataset = dataset.dropna()
         dataset['y_Reg'] = dataset['OHLC4'].shift(-1).fillna(dataset.OHLC4[-1])
-        X = dataset.iloc[ : , 1:-1]  ;  y_Reg = dataset.iloc[ : ,[ -1]] ; 
+        X = dataset.iloc[ : , 1:-1]  ;  y_Reg = dataset.iloc[ : ,[ -1]] 
         return X , y_Reg , dataset
         
     @property  
@@ -67,7 +67,7 @@ class Run_model :
         dataset['Dense_1'] = dataset.apply((lambda x :  max(0, ((self.Dense_11 * x.RSI_7 )+(self.Dense_12  * x.RSI_14)+ 0))) , axis=1)
         dataset['Dense_2'] = dataset.apply((lambda x :  max(0, ((self.Dense_21 * x.RSI_7 )+(self.Dense_22  * x.RSI_14)+ 0))) , axis=1)
         dataset['Output'] = dataset.apply((lambda x :  (((self.Dense_31) * x.Dense_1 )) + ((self.Dense_32) * x.Dense_2 ) + 0 ) , axis=1)
-        dataset['Predict'] =  dataset.Output.shift(1) >  dataset.Output.shift(0)
+        dataset['Predict'] =  dataset.Output.shift(1) <  dataset.Output.shift(0)
         return dataset
     
     @property 
