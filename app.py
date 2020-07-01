@@ -74,7 +74,7 @@ class Run_model :
     def Chart (self):
         dataset = self.deep
         dataset['buy'] =  dataset.Predict.map(lambda x : np.where( x == True , x , None))
-        dataset['sell'] = dataset.Predict.map(lambda x : np.where( x == sell , x , None))
+        dataset['sell'] = dataset.Predict.map(lambda x : np.where( x == False, x , None))
         plt.figure(figsize=(12,8))
         plt.plot(dataset.close[-100:] , color='k' , alpha=0.20 )
         plt.plot(dataset.buy[-100:] , 'o',  color='g' , alpha=0.50 )
