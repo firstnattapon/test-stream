@@ -8,7 +8,6 @@ import streamlit as st
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
-import plotly.graph_objects as go
 
 class Run_model :
     def __init__(self , ex='deribit'):
@@ -72,7 +71,7 @@ class Run_model :
         return dataset
     
     @property 
-    def Chart1 (self):
+    def Chart (self):
         dataset = self.deep
         dataset['buy'] =  dataset.apply(lambda x : np.where( x.Predict == True , x.close , None) , axis=1)
         dataset['sell'] = dataset.apply(lambda x : np.where( x.Predict == False, x.close , None) , axis=1)
@@ -80,28 +79,8 @@ class Run_model :
         plt.plot(dataset.close[-100:] , color='k' , alpha=0.20 )
         plt.plot(dataset.buy[-100:] , 'o',  color='g' , alpha=0.50 )
         plt.plot(dataset.sell[-100:] , 'o', color='r' , alpha=0.50)              
-        st.pyplot()    
-
-    @property
-    def Chart2 (self):
-        dataset = self.deep
-        dataset['buy'] =  dataset.apply(lambda x : np.where( x.Predict == True , x.close , None) , axis=1)
-        dataset['sell'] = dataset.apply(lambda x : np.where( x.Predict == False, x.close , None) , axis=1)
-        
-        fig = go.Figure()
-        fig.add_trace(go.Scatter(x=dataset.index[-100:], y=dataset.close[-100:],
-                            mode='lines',
-                            name='lines'))
-  
-        fig.add_trace(go.Scatter(x=dataset.index[-100:], y=dataset.buy[-100:],
-                            mode='markers',
-                            name='markers_buy'))      
-    
-        fig.add_trace(go.Scatter(x=dataset.index[-100:], y=dataset.sell[-100:],
-                            mode='markers',
-                            name='markers_sell'))      
-        st.plotly_chart(fig, use_container_width=True)
-
+        st.pyplot();
+     
     @property 
     def  trade (self):
         while True:
@@ -150,6 +129,5 @@ class Run_model :
 #         model.trade
 
 model =  Run_model()
-# model.Chart1
-model.Chart2
+model.Chart
 
