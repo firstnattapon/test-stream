@@ -55,11 +55,11 @@ class Run_model :
         dataset.ta.rsi(length=7 , scalar=1 , append=True )
         dataset.ta.rsi(length=14 , scalar=1 , append=True )
         dataset = dataset.fillna(0)
-        dataset = dataset.iloc[: , 5:]
+        #dataset = dataset.iloc[: , 5:]
         dataset = dataset.dropna()
         dataset['y_Reg'] = dataset['OHLC4'].shift(-1).fillna(dataset.OHLC4[-1])
         X = dataset.iloc[ : , 1:-1]  ;  y_Reg = dataset.iloc[ : ,[ -1]] ; 
-        return X ,y_Reg , dataset
+        return X , y_Reg , dataset
         
     @property  
     def deep (self):
@@ -72,11 +72,11 @@ class Run_model :
     
     @property 
     def Chart (self):
-        dataset = self.deep ; close = self.dataset
-        dataset['buy'] =  dataset.Predict.map(lambda x : np.where( x == True , x , None))
-        dataset['sell'] = dataset.Predict.map(lambda x : np.where( x == False, x , None))
+        dataset = self.deep
+        dataset['buy'] =  dataset.apply(lambda x : np.where( x.Predict == True , x.close , None) , axis=1)
+        dataset['sell'] = dataset.apply(lambda x : np.where( x.Predict == False, x.close , None) , axis=1)
         plt.figure(figsize=(12,8))
-        plt.plot(close.close[-100:] , color='k' , alpha=0.20 )
+        plt.plot(dataset.close[-100:] , color='k' , alpha=0.20 )
         plt.plot(dataset.buy[-100:] , 'o',  color='g' , alpha=0.50 )
         plt.plot(dataset.sell[-100:] , 'o', color='r' , alpha=0.50)              
         st.pyplot()    
