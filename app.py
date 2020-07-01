@@ -100,9 +100,20 @@ class Run_model :
         plt.figure(figsize=(12,8))
         sns.lineplot(data=dataset['close'])
         sns.lineplot(data=[self.deep.Predict])
+        st.pyplot() 
+
+    @property 
+    def Chart (self):
+        dataset = self.dataset
+        dataset['buy'] = np.where(dataset['Predict'] == True ,  dataset['close']  , None)
+        dataset['sell'] = np.where(dataset['Predict'] == False ,  dataset['close']  , None)         
+        
+        plt.figure(figsize=(12,8))
+        plt.plot(dataset.close[-100:] , color='k' , alpha=0.20 )
+        plt.plot(dataset.buy[-100:] , 'o',  color='g' , alpha=0.50 )
+        plt.plot(dataset.sell[-100:] , 'o', color='r' , alpha=0.50)              
         st.pyplot()
-                
-                
+
 # model =  Run_model()
 # model.pair_trade = st.sidebar.text_input('Symbol' , 'ETH-PERPETUAL')
 # model.apiKey = st.sidebar.text_input('apiKey' , "AtdG0K3k")
