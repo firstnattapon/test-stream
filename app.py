@@ -5,6 +5,8 @@ from datetime import  datetime
 import pandas_ta as ta
 from time import sleep
 import streamlit as st
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 class Run_model :
     def __init__(self , ex='deribit'):
@@ -92,24 +94,33 @@ class Run_model :
                 latest_iteration.text(f'Progress {i+1}')
                 bar.progress(i + 1)
                 sleep(self.sleep)
+    @property 
+    def Chart (self):
+        dataset = self.dataset
+        plt.figure(figsize=(12,8))
+        sns.lineplot(data=dataset['close'])
+        st.pyplot()
+                
+# model =  Run_model()
+# model.pair_trade = st.sidebar.text_input('Symbol' , 'ETH-PERPETUAL')
+# model.apiKey = st.sidebar.text_input('apiKey' , "AtdG0K3k")
+# model.secret = st.sidebar.text_input('apiKey' ,"lItUXWckP2PNN-uPnrP_h_0dsctCXdFVP9x73bwo3Nc")
+# model.start_capital = st.sidebar.slider('start_capital' , 0 , 500 , 225)
+# model.sleep = st.sidebar.slider('sleep' , 0.0 , 6.0 , 3.0)
+
+# st.sidebar.text("_"*50)
+# st.sidebar.text("start_capital : {}".format (model.start_capital))
+# st.sidebar.text("Dense_11 : {}".format (model.Dense_11))
+# st.sidebar.text("Dense_12 : {}".format (model.Dense_12))
+# st.sidebar.text("Dense_21 : {}".format (model.Dense_21))
+# st.sidebar.text("Dense_22 : {}".format (model.Dense_22))
+# st.sidebar.text("Dense_31 : {}".format (model.Dense_31))
+# st.sidebar.text("Dense_32 : {}".format (model.Dense_32))
+# st.sidebar.text("_"*50)
+
+# if st.sidebar.button('Run_model'):
+#         model =  Run_model()
+#         model.trade
 
 model =  Run_model()
-model.pair_trade = st.sidebar.text_input('Symbol' , 'ETH-PERPETUAL')
-model.apiKey = st.sidebar.text_input('apiKey' , "AtdG0K3k")
-model.secret = st.sidebar.text_input('apiKey' ,"lItUXWckP2PNN-uPnrP_h_0dsctCXdFVP9x73bwo3Nc")
-model.start_capital = st.sidebar.slider('start_capital' , 0 , 500 , 225)
-model.sleep = st.sidebar.slider('sleep' , 0.0 , 6.0 , 3.0)
-
-st.sidebar.text("_"*50)
-st.sidebar.text("start_capital : {}".format (model.start_capital))
-st.sidebar.text("Dense_11 : {}".format (model.Dense_11))
-st.sidebar.text("Dense_12 : {}".format (model.Dense_12))
-st.sidebar.text("Dense_21 : {}".format (model.Dense_21))
-st.sidebar.text("Dense_22 : {}".format (model.Dense_22))
-st.sidebar.text("Dense_31 : {}".format (model.Dense_31))
-st.sidebar.text("Dense_32 : {}".format (model.Dense_32))
-st.sidebar.text("_"*50)
-
-if st.sidebar.button('Run_model'):
-        model =  Run_model()
-        model.trade
+model.Chart
