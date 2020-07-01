@@ -76,10 +76,10 @@ class Run_model :
         dataset['buy'] =  dataset.apply(lambda x : np.where( x.Predict == True , x.close , None) , axis=1)
         dataset['sell'] = dataset.apply(lambda x : np.where( x.Predict == False, x.close , None) , axis=1)
 #         plt.figure(figsize=(12,8))
-#         plt.plot(dataset.close[-100:] , color='k' , alpha=0.20 )
-#         plt.plot(dataset.buy[-100:] , 'o',  color='g' , alpha=0.50 )
-#         plt.plot(dataset.sell[-100:] , 'o', color='r' , alpha=0.50)              
-#         plt.show()
+        plt.plot(dataset.close[-100:] , color='k' , alpha=0.20 )
+        plt.plot(dataset.buy[-100:] , 'o',  color='g' , alpha=0.50 )
+        plt.plot(dataset.sell[-100:] , 'o', color='r' , alpha=0.50)              
+        st.pyplot(figsize=(12,8))
      
     @property 
     def  trade (self):
@@ -92,13 +92,13 @@ class Run_model :
             diff =  (a * p) - self.start_capital 
             if (dataset.Predict[-1] == True) & (diff < -1.00) :
                 deribit.create_market_buy_order(self.pair_trade , abs(diff))
-                st.write( dataset.Predict[-1] , 'Buy' , round(diff , 2), round(p , 2) , round(a , 3))
+#                 st.write( dataset.Predict[-1] , 'Buy' , round(diff , 2), round(p , 2) , round(a , 3))
 
             elif (dataset.Predict[-1] == False) & (diff > 1.00) :
                 deribit.create_market_sell_order(self.pair_trade , abs(diff))
-                st.write( dataset.Predict[-1] , 'Sell' , round(diff , 2) , round(p , 2), round(a , 3))
+#                 st.write( dataset.Predict[-1] , 'Sell' , round(diff , 2) , round(p , 2), round(a , 3))
             else:
-                st.write( dataset.Predict[-1] , 'Wait' , round(diff , 2) , round(p , 2), round(a , 3))
+#                 st.write( dataset.Predict[-1] , 'Wait' , round(diff , 2) , round(p , 2), round(a , 3))
 
             latest_iteration = st.empty()
             bar = st.progress(0)
