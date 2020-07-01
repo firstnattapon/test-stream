@@ -99,7 +99,9 @@ class Run_model :
         dataset = self.dataset
         plt.figure(figsize=(12,8))
         sns.lineplot(data=dataset['close'])
+        sns.lineplot(data=[self.deep])
         st.pyplot()
+                
                 
 # model =  Run_model()
 # model.pair_trade = st.sidebar.text_input('Symbol' , 'ETH-PERPETUAL')
