@@ -8,6 +8,7 @@ import streamlit as st
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
+import plotly.graph_objects as go
 
 class Run_model :
     def __init__(self , ex='deribit'):
@@ -86,12 +87,15 @@ class Run_model :
         dataset = self.deep
         dataset['buy'] =  dataset.apply(lambda x : np.where( x.Predict == True , x.close , None) , axis=1)
         dataset['sell'] = dataset.apply(lambda x : np.where( x.Predict == False, x.close , None) , axis=1)
-        plt.figure(figsize=(12,8))
-        plt.plot(dataset.close[-100:] , color='k' , alpha=0.20 )
-        plt.plot(dataset.buy[-100:] , 'o',  color='g' , alpha=0.50 )
-        plt.plot(dataset.sell[-100:] , 'o', color='r' , alpha=0.50)              
-        st.pyplot()         
+
+        fig = go.Figure()
+        fig.add_trace(go.Scatter(x=dataset.index[-100:], y=dataset.close[-100:],
+                            mode='lines',
+                            name='lines'))
         
+        st.plotly_chart(fig, use_container_width=True)
+        
+
     @property 
     def  trade (self):
         while True:
