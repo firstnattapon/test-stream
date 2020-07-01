@@ -67,7 +67,7 @@ class Run_model :
         dataset['Dense_1'] = dataset.apply((lambda x :  max(0, ((self.Dense_11 * x.RSI_7 )+(self.Dense_12  * x.RSI_14)+ 0))) , axis=1)
         dataset['Dense_2'] = dataset.apply((lambda x :  max(0, ((self.Dense_21 * x.RSI_7 )+(self.Dense_22  * x.RSI_14)+ 0))) , axis=1)
         dataset['Output'] = dataset.apply((lambda x :  (((self.Dense_31) * x.Dense_1 )) + ((self.Dense_32) * x.Dense_2 ) + 0 ) , axis=1)
-        dataset['Predict'] =  dataset.Output.shift(1) <  dataset.Output.shift(0)
+        dataset['Predict'] =  dataset.Output.shift(1) >  dataset.Output.shift(0)
         return dataset
     
     @property 
@@ -76,9 +76,9 @@ class Run_model :
         dataset['buy'] =  dataset.apply(lambda x : np.where( x.Predict == True , x.close , None) , axis=1)
         dataset['sell'] = dataset.apply(lambda x : np.where( x.Predict == False, x.close , None) , axis=1)
         plt.figure(figsize=(12,8))
-        plt.plot(dataset.close[-150:] , color='k' , alpha=0.20 )
-        plt.plot(dataset.buy[-150:] , 'o',  color='g' , alpha=0.50 )
-        plt.plot(dataset.sell[-150:] , 'o', color='r' , alpha=0.50)              
+        plt.plot(dataset.close[-100:] , color='k' , alpha=0.20 )
+        plt.plot(dataset.buy[-100:] , 'o',  color='g' , alpha=0.50 )
+        plt.plot(dataset.sell[-100:] , 'o', color='r' , alpha=0.50)              
         st.pyplot()    
 
     @property 
