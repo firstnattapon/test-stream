@@ -98,6 +98,7 @@ class Run_model :
                 deribit.create_market_sell_order(self.pair_trade , abs(diff))
 #                 st.write( dataset.Predict[-1] , 'Sell' , round(diff , 2) , round(p , 2), round(a , 3))
             else:
+                pass
 #                 st.write( dataset.Predict[-1] , 'Wait' , round(diff , 2) , round(p , 2), round(a , 3))
 
             latest_iteration = st.empty()
