@@ -106,8 +106,8 @@ class Run_model :
     @property 
     def Chart (self):
         dataset = self.dataset
-        dataset['buy'] = np.where(dataset['Predict'] == True ,  dataset['close']  , None)
-        dataset['sell'] = np.where(dataset['Predict'] == False ,  dataset['close']  , None)         
+        dataset['buy'] =  dataset.Predict.map(lambda x : np.where( x == True , x , None))
+        dataset['sell'] = dataset.Predict.map(lambda x : np.where( x == sell , x , None))
         
         plt.figure(figsize=(12,8))
         plt.plot(dataset.close[-100:] , color='k' , alpha=0.20 )
