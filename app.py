@@ -99,7 +99,7 @@ class Run_model :
         dataset = self.dataset
         plt.figure(figsize=(12,8))
         sns.lineplot(data=dataset['close'])
-        sns.lineplot(data=[self.deep])
+        sns.lineplot(data=[self.deep.Predict])
         st.pyplot()
                 
                 
