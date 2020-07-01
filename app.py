@@ -87,14 +87,20 @@ class Run_model :
         dataset = self.deep
         dataset['buy'] =  dataset.apply(lambda x : np.where( x.Predict == True , x.close , None) , axis=1)
         dataset['sell'] = dataset.apply(lambda x : np.where( x.Predict == False, x.close , None) , axis=1)
-
+        
         fig = go.Figure()
         fig.add_trace(go.Scatter(x=dataset.index[-100:], y=dataset.close[-100:],
                             mode='lines',
                             name='lines'))
-        
+  
+        fig.add_trace(go.Scatter(x=dataset.index[-100:], y=dataset.buy[-100:],
+                            mode='markers',
+                            name='markers_buy'))      
+    
+        fig.add_trace(go.Scatter(x=dataset.index[-100:], y=dataset.sell[-100:],
+                            mode='markers',
+                            name='markers_sell'))      
         st.plotly_chart(fig, use_container_width=True)
-        
 
     @property 
     def  trade (self):
@@ -144,6 +150,6 @@ class Run_model :
 #         model.trade
 
 model =  Run_model()
-model.Chart1
+# model.Chart1
 model.Chart2
 
