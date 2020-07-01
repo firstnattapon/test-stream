@@ -7,6 +7,7 @@ from time import sleep
 import streamlit as st
 import matplotlib.pyplot as plt
 import seaborn as sns
+import numpy as np
 
 class Run_model :
     def __init__(self , ex='deribit'):
