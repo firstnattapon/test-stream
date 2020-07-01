@@ -25,6 +25,8 @@ class Run_model :
         self.Dense_32 = 0.04132303
         self.start_capital = 225.00
         self.sleep = 3
+        self.timeframe = "15m"  
+        self.limit = 5000
 
     @property
     def  ex_api (self):
@@ -38,8 +40,8 @@ class Run_model :
     @property
     def  dataset (self):
         self.exchange = ccxt.ftx({'apiKey': '' ,'secret': ''  , 'enableRateLimit': True }) 
-        timeframe = "15m"  
-        limit =  5000 
+        timeframe = self.timeframe 
+        limit =  self.limit 
         ohlcv = self.exchange.fetch_ohlcv(self.pair_data,timeframe , limit=limit )
         ohlcv = self.exchange.convert_ohlcv_to_trading_view(ohlcv)
         df =  pd.DataFrame(ohlcv)
@@ -77,9 +79,9 @@ class Run_model :
         dataset['buy'] =  dataset.apply(lambda x : np.where( x.Predict == True , x.close , None) , axis=1)
         dataset['sell'] = dataset.apply(lambda x : np.where( x.Predict == False, x.close , None) , axis=1)
         plt.figure(figsize=(12,8))
-        plt.plot(dataset.close[-100:] , color='k' , alpha=0.20 )
-        plt.plot(dataset.buy[-100:] , 'o',  color='g' , alpha=0.50 )
-        plt.plot(dataset.sell[-100:] , 'o', color='r' , alpha=0.50)              
+        plt.plot(dataset.close[-self.limit:] , color='k' , alpha=0.20 )
+        plt.plot(dataset.buy[-self.limit:] , 'o',  color='g' , alpha=0.50 )
+        plt.plot(dataset.sell[-self.limit:] , 'o', color='r' , alpha=0.50)              
         st.pyplot()
      
     @property 
@@ -131,5 +133,6 @@ class Run_model :
 #         model.trade
 
 model =  Run_model()
+model.timeframe = st.sidebar.text_input('timeframe' , "5m")
+model.limit = st.sidebar.slider('limit' , 0 , 5000 , 300)
 pyplot = model.Chart
-
