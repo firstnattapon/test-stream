@@ -8,6 +8,7 @@ import streamlit as st
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
+sns.set_style("whitegrid")
 
 class Run_model :
     def __init__(self , ex='deribit'):
