@@ -72,7 +72,7 @@ class Run_model :
     
     @property 
     def Chart (self):
-        dataset = self.dataset
+        dataset = self.deep
         dataset['buy'] =  dataset.Predict.map(lambda x : np.where( x == True , x , None))
         dataset['sell'] = dataset.Predict.map(lambda x : np.where( x == sell , x , None))
         plt.figure(figsize=(12,8))
