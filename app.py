@@ -75,8 +75,8 @@ class Run_model :
         dataset = self.deep
         dataset['buy'] =  dataset.apply(lambda x : np.where( x.Predict == True , x.close , None) , axis=1)
         dataset['sell'] = dataset.apply(lambda x : np.where( x.Predict == False, x.close , None) , axis=1)
-        plt.figure(figsize=(12,8))
-        plt.plot(dataset.close[-100:] , color='k' , alpha=0.20 )
+#         plt.figure(figsize=(12,8))
+#         plt.plot(dataset.close[-100:] , color='k' , alpha=0.20 )
 #         plt.plot(dataset.buy[-100:] , 'o',  color='g' , alpha=0.50 )
 #         plt.plot(dataset.sell[-100:] , 'o', color='r' , alpha=0.50)              
 #         plt.show()
