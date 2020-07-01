@@ -37,7 +37,7 @@ class Run_model :
     @property
     def  dataset (self):
         self.exchange = ccxt.ftx({'apiKey': '' ,'secret': ''  , 'enableRateLimit': True }) 
-        timeframe = "5m"  
+        timeframe = "15m"  
         limit =  5000 
         ohlcv = self.exchange.fetch_ohlcv(self.pair_data,timeframe , limit=limit )
         ohlcv = self.exchange.convert_ohlcv_to_trading_view(ohlcv)
@@ -76,9 +76,9 @@ class Run_model :
         dataset['buy'] =  dataset.apply(lambda x : np.where( x.Predict == True , x.close , None) , axis=1)
         dataset['sell'] = dataset.apply(lambda x : np.where( x.Predict == False, x.close , None) , axis=1)
         plt.figure(figsize=(12,8))
-        plt.plot(dataset.close[-250:] , color='k' , alpha=0.20 )
-        plt.plot(dataset.buy[-250:] , 'o',  color='g' , alpha=0.50 )
-        plt.plot(dataset.sell[-250:] , 'o', color='r' , alpha=0.50)              
+        plt.plot(dataset.close[-150:] , color='k' , alpha=0.20 )
+        plt.plot(dataset.buy[-150:] , 'o',  color='g' , alpha=0.50 )
+        plt.plot(dataset.sell[-150:] , 'o', color='r' , alpha=0.50)              
         st.pyplot()    
 
     @property 
