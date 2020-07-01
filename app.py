@@ -69,7 +69,18 @@ class Run_model :
         dataset['Output'] = dataset.apply((lambda x :  (((self.Dense_31) * x.Dense_1 )) + ((self.Dense_32) * x.Dense_2 ) + 0 ) , axis=1)
         dataset['Predict'] =  dataset.Output.shift(1) <  dataset.Output.shift(0)
         return dataset
-        
+    
+    @property 
+    def Chart (self):
+        dataset = self.dataset
+        dataset['buy'] =  dataset.Predict.map(lambda x : np.where( x == True , x , None))
+        dataset['sell'] = dataset.Predict.map(lambda x : np.where( x == sell , x , None))
+        plt.figure(figsize=(12,8))
+        plt.plot(dataset.close[-100:] , color='k' , alpha=0.20 )
+        plt.plot(dataset.buy[-100:] , 'o',  color='g' , alpha=0.50 )
+        plt.plot(dataset.sell[-100:] , 'o', color='r' , alpha=0.50)              
+        st.pyplot()    
+
     @property 
     def  trade (self):
         while True:
@@ -95,25 +106,6 @@ class Run_model :
                 latest_iteration.text(f'Progress {i+1}')
                 bar.progress(i + 1)
                 sleep(self.sleep)
-    @property 
-    def Chart (self):
-        dataset = self.dataset
-        plt.figure(figsize=(12,8))
-        sns.lineplot(data=dataset['close'])
-        sns.lineplot(data=[self.deep.Predict])
-        st.pyplot() 
-
-    @property 
-    def Chart (self):
-        dataset = self.dataset
-        dataset['buy'] =  dataset.Predict.map(lambda x : np.where( x == True , x , None))
-        dataset['sell'] = dataset.Predict.map(lambda x : np.where( x == sell , x , None))
-        
-        plt.figure(figsize=(12,8))
-        plt.plot(dataset.close[-100:] , color='k' , alpha=0.20 )
-        plt.plot(dataset.buy[-100:] , 'o',  color='g' , alpha=0.50 )
-        plt.plot(dataset.sell[-100:] , 'o', color='r' , alpha=0.50)              
-        st.pyplot()
 
 # model =  Run_model()
 # model.pair_trade = st.sidebar.text_input('Symbol' , 'ETH-PERPETUAL')
