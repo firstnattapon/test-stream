@@ -5,3 +5,5 @@ pandas-ta == 0.1.39b0
 matplotlib
 seaborn
 numpy
+plotly == 4.8.2
+
