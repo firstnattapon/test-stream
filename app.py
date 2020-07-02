@@ -134,5 +134,5 @@ class Run_model :
 
 model =  Run_model()
 model.timeframe = st.sidebar.text_input('timeframe' , "5m")
-model.limit = st.sidebar.slider('limit' , 0 , 5000 , 300)
+model.limit = st.sidebar.text_input('limit' , 300)
 pyplot = model.Chart
