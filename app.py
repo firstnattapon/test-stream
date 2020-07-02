@@ -134,15 +134,15 @@ class Run_model :
 # model.start_capital = st.sidebar.slider('start_capital' , 0 , 500 , 225)
 # model.sleep = st.sidebar.slider('sleep' , 0.0 , 6.0 , 3.0)
 
-# st.sidebar.text("_"*50)
+st.sidebar.text("_"*10)
 # st.sidebar.text("start_capital : {}".format (model.start_capital))
-# st.sidebar.text("Dense_11 : {}".format (model.Dense_11))
-# st.sidebar.text("Dense_12 : {}".format (model.Dense_12))
-# st.sidebar.text("Dense_21 : {}".format (model.Dense_21))
-# st.sidebar.text("Dense_22 : {}".format (model.Dense_22))
-# st.sidebar.text("Dense_31 : {}".format (model.Dense_31))
-# st.sidebar.text("Dense_32 : {}".format (model.Dense_32))
-# st.sidebar.text("_"*50)
+st.sidebar.text("Dense_11 : {}".format (model.Dense_11))
+st.sidebar.text("Dense_12 : {}".format (model.Dense_12))
+st.sidebar.text("Dense_21 : {}".format (model.Dense_21))
+st.sidebar.text("Dense_22 : {}".format (model.Dense_22))
+st.sidebar.text("Dense_31 : {}".format (model.Dense_31))
+st.sidebar.text("Dense_32 : {}".format (model.Dense_32))
+st.sidebar.text("_"*10)
 
 # if st.sidebar.button('Run_model'):
 #         model =  Run_model()
