@@ -1,7 +1,7 @@
-streamlit == 0.62.0
+streamlit == 0.62.1
 pandas == 1.0.5
-ccxt == 1.30.51
-pandas-ta == 0.1.39b0
-matplotlib
-seaborn
-numpy
+ccxt == 1.30.53
+pandas-ta == 0.1.66b0
+matplotlib == 3.2.2
+seaborn == 0.10.1
+numpy == 1.18.5
