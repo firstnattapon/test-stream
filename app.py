@@ -79,7 +79,7 @@ class Run_model :
         dataset['buy'] =  dataset.apply(lambda x : np.where( x.Predict == True , x.close , None) , axis=1)
         dataset['sell'] = dataset.apply(lambda x : np.where( x.Predict == False, x.close , None) , axis=1)
         plt.figure(figsize=(12,8))
-        plt.plot(dataset.close[-self.limit:] , color='k' , alpha=0.20 )
+        plt.plot(dataset.OHLC4[-self.limit:] , color='k' , alpha=0.20 )
         plt.plot(dataset.buy[-self.limit:] , 'o',  color='g' , alpha=0.50 )
         plt.plot(dataset.sell[-self.limit:] , 'o', color='r' , alpha=0.50)              
         st.pyplot()
