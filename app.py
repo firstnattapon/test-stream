@@ -99,7 +99,7 @@ class Run_model :
         nav_dataset = nav_dataset.iloc[: , 5:].drop(columns=['y_Reg'])
         plt.figure(figsize=(12,8))
         plt.plot(nav_dataset['Cumulative_Returns'], color='k',  alpha=0.60 )
-        st.write('Nav:' , round((nav_dataset.Cumulative_Returns[-2]) , 2 ))
+        st.write('Nav:' , round((nav_dataset.Cumulative_Returns[-2]) , 4 ))
         st.pyplot()
         return nav_dataset
     
@@ -146,8 +146,8 @@ st.sidebar.text("Dense_31 : {}".format (model.Dense_31))
 st.sidebar.text("Dense_32 : {}".format (model.Dense_32))
 st.sidebar.text("_"*30)
 
-model.length_1 = st.sidebar.slider('length_1' , 2 , 30 , 7)
-model.length_2 = st.sidebar.slider('length_2' , 2 , 30 , 14)
+model.length_1 = st.sidebar.slider('length_1' , 2 , 100 , 7)
+model.length_2 = st.sidebar.slider('length_2' , 2 , 100 , 14)
 
 # if st.sidebar.button('Run_model'):
 #         model =  Run_model()
