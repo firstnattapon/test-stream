@@ -8,7 +8,7 @@ import streamlit as st
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
-sns.set_style("whitegrid")
+# sns.set_style("whitegrid")
 
 class Run_model :
     def __init__(self , ex='deribit'):
@@ -134,6 +134,6 @@ class Run_model :
 
 model =  Run_model()
 model.timeframe = st.sidebar.selectbox('timeframe',('5m', '15m' ,  '1h', '4h' ,'1d'))
-model.limit = st.sidebar.slider('limit' , 0 , 5000 , 100)
+model.limit = st.sidebar.selectbox('limit',( 100 , 250 , 500 , 1000  , 2500))
 pyplot = model.Chart
 
