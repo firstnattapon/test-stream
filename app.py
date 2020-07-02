@@ -93,10 +93,11 @@ class Run_model :
         nav_dataset['Tomorrows_Returns'] = np.log(nav_dataset['OHLC4']/nav_dataset['OHLC4'].shift(1))
         nav_dataset['Tomorrows_Returns'] = nav_dataset['Tomorrows_Returns'].shift(-1)
         nav_dataset['Strategy_Returns'] = np.where(nav_dataset['Predict'] == True  , nav_dataset['Tomorrows_Returns']  , -nav_dataset['Tomorrows_Returns'] )
-        nav_dataset['Cumulative_Strategy_Returns'] = np.cumsum(nav_dataset['Strategy_Returns'])
+        nav_dataset['Cumulative_Returns'] = np.cumsum(nav_dataset['Strategy_Returns'])
+        nav_dataset = nav_dataset.iloc[: , 5:].drop(columns=['y_Reg']).fillna(0)
         plt.figure(figsize=(12,8))
-        plt.plot(nav_dataset['Cumulative_Strategy_Returns'], color='k',  alpha=0.60 )
-        st.write('Nav:' , round((nav_dataset.Cumulative_Strategy_Returns[-2]) , 2 ))
+        plt.plot(nav_dataset['Cumulative_Returns'], color='k',  alpha=0.60 )
+        st.write('Nav:' , round((nav_dataset.Cumulative_Returns[-2]) , 2 ))
         st.pyplot()
         return nav_dataset
     
