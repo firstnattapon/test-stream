@@ -152,4 +152,4 @@ if st.sidebar.button('Refresh'):
     model.start_test =  np.datetime64(st.sidebar.date_input('start_test', value= dt.datetime(2020, 7, 2, 0, 0)))
     pyplot = model.chart
     st.sidebar.text('Predict: {}'.format(model.deep.Predict[-1]))
-    st.sidebar.text('Nav: {}'.format(round(model.nav.Cumulative_Strategy_Returns[-2] , 2 ))
+    st.sidebar.text('Nav: {}'.format(round(model.nav.Cumulative_Strategy_Returns[-2]) , 2 ))
