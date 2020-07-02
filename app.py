@@ -130,7 +130,6 @@ class Run_model :
                 sleep(self.sleep)
 #____________________________________________________________________________     
 model =  Run_model()
-st.write('https://github.com/firstnattapon/test-stream/edit/master/app.py')
 # model.pair_trade = st.sidebar.text_input('Symbol' , 'ETH-PERPETUAL')
 # model.apiKey = st.sidebar.text_input('apiKey' , "AtdG0K3k")
 # model.secret = st.sidebar.text_input('apiKey' ,"lItUXWckP2PNN-uPnrP_h_0dsctCXdFVP9x73bwo3Nc")
@@ -160,3 +159,4 @@ model.start_test =  np.datetime64(st.sidebar.date_input('start_test', value= dt.
 pyplot = model.chart
 pyplot = model.nav
 st.write(pyplot)
+st.write('https://github.com/firstnattapon/test-stream/edit/master/app.py')
