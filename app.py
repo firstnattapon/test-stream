@@ -152,3 +152,4 @@ model.timeframe = st.sidebar.selectbox('timeframe',('15m' , '5m' ,  '1h', '4h' ,
 model.start_test =  np.datetime64(st.sidebar.date_input('start_test', value= dt.datetime(2020, 7, 2, 0, 0)))
 pyplot = model.chart
 pyplot = model.nav
+st.write(pyplot)
