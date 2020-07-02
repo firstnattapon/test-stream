@@ -58,8 +58,10 @@ class Run_model :
     def  talib (self ): # ตัวแปร
         dataset = self.dataset
         dataset.ta.ohlc4(append=True)
-        dataset.ta.rsi(length=7 , scalar=1 , append=True )
-        dataset.ta.rsi(length=14 , scalar=1 , append=True )
+        st.text_input('input_1' , dataset.ta.rsi(length=7 , scalar=1 , append=True ))
+        st.text_input('input_2' , dataset.ta.rsi(length=14 , scalar=1 , append=True ))
+#         dataset.ta.rsi(length=7 , scalar=1 , append=True )
+#         dataset.ta.rsi(length=14 , scalar=1 , append=True )
         dataset = dataset.fillna(0)
         dataset = dataset.dropna()
         dataset['y_Reg'] = dataset['OHLC4'].shift(-1).fillna(dataset.OHLC4[-1])
@@ -154,7 +156,3 @@ model.start_test =  np.datetime64(st.sidebar.date_input('start_test', value= dt.
 pyplot = model.chart
 pyplot = model.nav
 st.write(pyplot)
-
-code = '''def hello():
-print("Hello, Streamlit!")'''
-st.code(code, language='python')
