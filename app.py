@@ -29,7 +29,9 @@ class Run_model :
         self.timeframe = "15m"  
         self.limit = 500
         self.start_test = dt.datetime(2020, 7 , 2 , 0 , 0)
-
+        self.length_1 = 7
+        self.length_2 = 14
+        
     @property
     def  ex_api (self):
         if self.ex == "ftx" :
@@ -55,11 +57,11 @@ class Run_model :
         return dataset
 
     @property  
-    def  talib (self ): # ตัวแปร
+    def  talib (self): # ตัวแปร
         dataset = self.dataset
         dataset.ta.ohlc4(append=True)
-        dataset.ta.rsi(length=7 , scalar=1 , append=True )
-        dataset.ta.rsi(length=14 , scalar=1 , append=True )
+        dataset.ta.rsi(length= self.length_1 , scalar=1 , append=True )
+        dataset.ta.rsi(length= self.length_2 , scalar=1 , append=True )
         dataset = dataset.fillna(0)
         dataset = dataset.dropna()
         dataset['y_Reg'] = dataset['OHLC4'].shift(-1).fillna(dataset.OHLC4[-1])
@@ -134,7 +136,7 @@ model =  Run_model()
 # model.start_capital = st.sidebar.slider('start_capital' , 0 , 500 , 225)
 # model.sleep = st.sidebar.slider('sleep' , 0.0 , 6.0 , 3.0)
 
-st.sidebar.text("_"*25)
+st.sidebar.text("_"*30)
 # st.sidebar.text("start_capital : {}".format (model.start_capital))
 st.sidebar.text("Dense_11 : {}".format (model.Dense_11))
 st.sidebar.text("Dense_12 : {}".format (model.Dense_12))
@@ -142,7 +144,10 @@ st.sidebar.text("Dense_21 : {}".format (model.Dense_21))
 st.sidebar.text("Dense_22 : {}".format (model.Dense_22))
 st.sidebar.text("Dense_31 : {}".format (model.Dense_31))
 st.sidebar.text("Dense_32 : {}".format (model.Dense_32))
-st.sidebar.text("_"*25)
+st.sidebar.text("_"*30)
+
+model.length_1 = st.sidebar.slider('length_1' , 2 , 30 , 7)
+model.length_2 = st.sidebar.slider('length_2' , 2 , 30 , 14)
 
 # if st.sidebar.button('Run_model'):
 #         model =  Run_model()
