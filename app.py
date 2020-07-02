@@ -148,6 +148,7 @@ st.sidebar.text("_"*25)
 #         model =  Run_model()
 #         model.trade
 
+model.pair_data = st.sidebar.text_input('data' , "ETH/USDT")
 model.timeframe = st.sidebar.selectbox('timeframe',('15m' , '5m' ,  '1h', '4h' ,'1d' ))
 model.start_test =  np.datetime64(st.sidebar.date_input('start_test', value= dt.datetime(2020, 7, 2, 0, 0)))
 pyplot = model.chart
