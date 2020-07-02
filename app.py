@@ -2,6 +2,7 @@ import ccxt
 import pandas as pd
 pd.set_option("display.precision", 8)
 from datetime import  datetime
+import datetime as dt
 import pandas_ta as ta
 from time import sleep
 import streamlit as st
@@ -26,7 +27,8 @@ class Run_model :
         self.start_capital = 225.00
         self.sleep = 3
         self.timeframe = "15m"  
-        self.limit = 5000
+        self.limit = 500
+        self.start_test = dt.datetime(2020, 7 , 1 , 0 , 0)
 
     @property
     def  ex_api (self):
@@ -46,6 +48,7 @@ class Run_model :
         ohlcv = self.exchange.convert_ohlcv_to_trading_view(ohlcv)
         df =  pd.DataFrame(ohlcv)
         df.t = df.t.apply(lambda  x :  datetime.fromtimestamp(x))
+        df = df[df.t > self.start_test]
         df =  df.set_index(df['t']) ; df = df.drop(['t'] , axis= 1 )
         df = df.rename(columns={"o": "open", "h": "high"  , "l": "low", "c": "close" , "v": "volume"})
         dataset = df  ; dataset = dataset.dropna()
@@ -74,16 +77,29 @@ class Run_model :
         return dataset
     
     @property 
-    def Chart (self):
+    def  chart (self):
         dataset = self.deep
         dataset['buy'] =  dataset.apply(lambda x : np.where( x.Predict == True , x.OHLC4 , None) , axis=1)
         dataset['sell'] = dataset.apply(lambda x : np.where( x.Predict == False, x.OHLC4 , None) , axis=1)
         plt.figure(figsize=(12,8))
-        plt.plot(dataset.OHLC4[-self.limit:] , color='k' , alpha=0.20 )
-        plt.plot(dataset.buy[-self.limit:] , 'o',  color='g' , alpha=0.50 )
-        plt.plot(dataset.sell[-self.limit:] , 'o', color='r' , alpha=0.50)              
-        st.pyplot()
-     
+        plt.plot(dataset.OHLC4 , color='k' , alpha=0.20 )
+        plt.plot(dataset.buy , 'o',  color='g' , alpha=0.50 )
+        plt.plot(dataset.sell , 'o', color='r' , alpha=0.50)              
+        # st.pyplot()
+
+    @property 
+    def  nav (self):
+        nav_dataset = self.deep
+        nav_dataset['Tomorrows_Returns'] = np.log(nav_dataset['OHLC4']/nav_dataset['OHLC4'].shift(1))
+        nav_dataset['Tomorrows_Returns'] = nav_dataset['Tomorrows_Returns'].shift(-1)
+        nav_dataset['Strategy_Returns'] = np.where(nav_dataset['Predict'] == True  , nav_dataset['Tomorrows_Returns']  , -nav_dataset['Tomorrows_Returns'] )
+        nav_dataset['Cumulative_Strategy_Returns'] = np.cumsum(nav_dataset['Strategy_Returns'])
+        plt.figure(figsize=(12,8))
+        plt.plot(nav_dataset['Cumulative_Strategy_Returns'], color='k',  alpha=0.60 )
+        # st.pyplot()
+        return nav_dataset
+
+
     @property 
     def  trade (self):
         while True:
@@ -132,7 +148,7 @@ class Run_model :
 #         model.trade
 
 model =  Run_model()
-model.timeframe = st.sidebar.selectbox('timeframe',('5m', '15m' ,  '1h', '4h' ,'1d'))
-model.limit = st.sidebar.selectbox('limit',( 100 , 250 , 500 , 1000  , 2500))
-pyplot = model.Chart
-
+model.timeframe = st.sidebar.selectbox('timeframe',('15m' , '5m' ,  '1h', '4h' ,'1d' ))
+model.start_test =  np.datetime64(st.date_input('start_test', value= dt.datetime(2020, 7, 1, 0, 0)))
+pyplot = model.chart
+nav_dataset = model.nav
