@@ -150,5 +150,4 @@ model =  Run_model()
 model.timeframe = st.sidebar.selectbox('timeframe',('15m' , '5m' ,  '1h', '4h' ,'1d' ))
 model.start_test =  np.datetime64(st.sidebar.date_input('start_test', value= dt.datetime(2020, 7, 2, 0, 0)))
 pyplot = model.chart
-nav_dataset = model.nav
-st.write(model.nav.Cumulative_Strategy_Returns[-2])
+st.write( (round model.nav.Cumulative_Strategy_Returns[-1] , 2 ))
