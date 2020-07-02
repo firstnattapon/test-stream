@@ -133,6 +133,7 @@ class Run_model :
 #         model.trade
 
 model =  Run_model()
-model.timeframe = st.sidebar.text_input('timeframe' , "5m")
-model.limit = st.sidebar.text_input('limit' , 300)
+model.timeframe = st.sidebar.selectbox('timeframe',('5m', '15m' ,  '1h', '4h' ,'1d'))
+model.limit = st.sidebar.slider('limit' , 0 , 5000 , 100)
 pyplot = model.Chart
+
