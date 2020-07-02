@@ -154,3 +154,7 @@ model.start_test =  np.datetime64(st.sidebar.date_input('start_test', value= dt.
 pyplot = model.chart
 pyplot = model.nav
 st.write(pyplot)
+
+code = '''def hello():
+print("Hello, Streamlit!")'''
+st.code(code, language='python')
