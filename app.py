@@ -83,7 +83,8 @@ class Run_model :
         plt.figure(figsize=(12,8))
         plt.plot(dataset.OHLC4 , color='k' , alpha=0.20 )
         plt.plot(dataset.buy , 'o',  color='g' , alpha=0.50 )
-        plt.plot(dataset.sell , 'o', color='r' , alpha=0.50)              
+        plt.plot(dataset.sell , 'o', color='r' , alpha=0.50)       
+        st.write('Predict:' , dataset.Predict[-1])
         st.pyplot()
 
     @property 
@@ -95,6 +96,7 @@ class Run_model :
         nav_dataset['Cumulative_Strategy_Returns'] = np.cumsum(nav_dataset['Strategy_Returns'])
         plt.figure(figsize=(12,8))
         plt.plot(nav_dataset['Cumulative_Strategy_Returns'], color='k',  alpha=0.60 )
+        st.write('Nav:' , round((nav_dataset.Cumulative_Strategy_Returns[-2]) , 2 ))
         st.pyplot()
         return nav_dataset
     
@@ -149,6 +151,4 @@ model =  Run_model()
 model.timeframe = st.sidebar.selectbox('timeframe',('15m' , '5m' ,  '1h', '4h' ,'1d' ))
 model.start_test =  np.datetime64(st.sidebar.date_input('start_test', value= dt.datetime(2020, 7, 2, 0, 0)))
 pyplot = model.chart
-st.write('Predict:' , model.deep.Predict[-1])
-# st.write('Nav:' , round((model.nav.Cumulative_Strategy_Returns[-2]) , 2 ))
-st.write(model.nav)
+pyplot = model.nav
