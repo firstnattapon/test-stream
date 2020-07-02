@@ -57,11 +57,11 @@ class Run_model :
     @property  
     def  talib (self ): # ตัวแปร
         dataset = self.dataset
-        dataset['OHLC4'] = (dataset.ta.ohlc4(length=2 , scalar=1 , append=False ) ) 
+        dataset.ta.ohlc4(append=True)
+        dataset.ta.log_return( offset = -1 , append=True)
         dataset.ta.rsi(length=7 , scalar=1 , append=True )
         dataset.ta.rsi(length=14 , scalar=1 , append=True )
         dataset = dataset.fillna(0)
-        #dataset = dataset.iloc[: , 5:]
         dataset = dataset.dropna()
         dataset['y_Reg'] = dataset['OHLC4'].shift(-1).fillna(dataset.OHLC4[-1])
         X = dataset.iloc[ : , 1:-1]  ;  y_Reg = dataset.iloc[ : ,[ -1]] 
@@ -90,15 +90,13 @@ class Run_model :
     @property 
     def  nav (self):
         nav_dataset = self.deep
-        nav_dataset['Tomorrows_Returns'] = np.log(nav_dataset['OHLC4']/nav_dataset['OHLC4'].shift(1))
-        nav_dataset['Tomorrows_Returns'] = nav_dataset['Tomorrows_Returns'].shift(-1)
-        nav_dataset['Strategy_Returns'] = np.where(nav_dataset['Predict'] == True  , nav_dataset['Tomorrows_Returns']  , -nav_dataset['Tomorrows_Returns'] )
+        nav_dataset['Strategy_Returns'] = np.where(nav_dataset['Predict'] == True  , nav_dataset.LOGRET_1  , -nav_dataset.LOGRET_1)
         nav_dataset['Cumulative_Strategy_Returns'] = np.cumsum(nav_dataset['Strategy_Returns'])
         plt.figure(figsize=(12,8))
         plt.plot(nav_dataset['Cumulative_Strategy_Returns'], color='k',  alpha=0.60 )
         st.pyplot()
         return nav_dataset
-
+    
     @property 
     def  trade (self):
         while True:
@@ -152,3 +150,4 @@ model.start_test =  np.datetime64(st.sidebar.date_input('start_test', value= dt.
 pyplot = model.chart
 st.write('Predict:' , model.deep.Predict[-1])
 st.write('Nav:' , round((model.nav.Cumulative_Strategy_Returns[-2]) , 2 ))
+st.write(model.nav)
