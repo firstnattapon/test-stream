@@ -57,7 +57,7 @@ class Run_model :
     @property  
     def  talib (self ): # ตัวแปร
         dataset = self.dataset
-        dataset['OHLC4'] = (dataset.ta.ohlc4(length=2 , scalar=1 , append=False ) ) / 250
+        dataset['OHLC4'] = (dataset.ta.ohlc4(length=2 , scalar=1 , append=False ) ) 
         dataset.ta.rsi(length=7 , scalar=1 , append=True )
         dataset.ta.rsi(length=14 , scalar=1 , append=True )
         dataset = dataset.fillna(0)
