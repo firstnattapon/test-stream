@@ -85,7 +85,7 @@ class Run_model :
         plt.plot(dataset.OHLC4 , color='k' , alpha=0.20 )
         plt.plot(dataset.buy , 'o',  color='g' , alpha=0.50 )
         plt.plot(dataset.sell , 'o', color='r' , alpha=0.50)              
-        # st.pyplot()
+        st.pyplot()
 
     @property 
     def  nav (self):
@@ -96,9 +96,8 @@ class Run_model :
         nav_dataset['Cumulative_Strategy_Returns'] = np.cumsum(nav_dataset['Strategy_Returns'])
         plt.figure(figsize=(12,8))
         plt.plot(nav_dataset['Cumulative_Strategy_Returns'], color='k',  alpha=0.60 )
-        # st.pyplot()
+        st.pyplot()
         return nav_dataset
-
 
     @property 
     def  trade (self):
