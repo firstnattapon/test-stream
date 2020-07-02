@@ -94,7 +94,7 @@ class Run_model :
         nav_dataset['Tomorrows_Returns'] = nav_dataset['Tomorrows_Returns'].shift(-1)
         nav_dataset['Strategy_Returns'] = np.where(nav_dataset['Predict'] == True  , nav_dataset['Tomorrows_Returns']  , -nav_dataset['Tomorrows_Returns'] )
         nav_dataset['Cumulative_Returns'] = np.cumsum(nav_dataset['Strategy_Returns'])
-        nav_dataset = nav_dataset.iloc[: , 5:].drop(columns=['y_Reg']).fillna(0)
+        nav_dataset = nav_dataset.iloc[: , 5:].drop(columns=['y_Reg'])
         plt.figure(figsize=(12,8))
         plt.plot(nav_dataset['Cumulative_Returns'], color='k',  alpha=0.60 )
         st.write('Nav:' , round((nav_dataset.Cumulative_Returns[-2]) , 2 ))
@@ -126,7 +126,7 @@ class Run_model :
                 latest_iteration.text(f'Progress {i+1}')
                 bar.progress(i + 1)
                 sleep(self.sleep)
-
+#____________________________________________________________________________     
 # model =  Run_model()
 # model.pair_trade = st.sidebar.text_input('Symbol' , 'ETH-PERPETUAL')
 # model.apiKey = st.sidebar.text_input('apiKey' , "AtdG0K3k")
