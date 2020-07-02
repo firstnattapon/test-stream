@@ -29,8 +29,8 @@ class Run_model :
         self.timeframe = "15m"  
         self.limit = 500
         self.start_test = dt.datetime(2020, 7 , 2 , 0 , 0)
-        self.length_1 = 7
-        self.length_2 = 14
+        self.length_1 = 21
+        self.length_2 = 36
         
     @property
     def  ex_api (self):
@@ -130,6 +130,7 @@ class Run_model :
                 sleep(self.sleep)
 #____________________________________________________________________________     
 model =  Run_model()
+st.write(https://github.com/firstnattapon/test-stream/edit/master/app.py)
 # model.pair_trade = st.sidebar.text_input('Symbol' , 'ETH-PERPETUAL')
 # model.apiKey = st.sidebar.text_input('apiKey' , "AtdG0K3k")
 # model.secret = st.sidebar.text_input('apiKey' ,"lItUXWckP2PNN-uPnrP_h_0dsctCXdFVP9x73bwo3Nc")
@@ -146,8 +147,8 @@ st.sidebar.text("Dense_31 : {}".format (model.Dense_31))
 st.sidebar.text("Dense_32 : {}".format (model.Dense_32))
 st.sidebar.text("_"*30)
 
-model.length_1 = st.sidebar.slider('length_1' , 2 , 100 , 7)
-model.length_2 = st.sidebar.slider('length_2' , 2 , 100 , 14)
+model.length_1 = st.sidebar.slider('length_1' , 2 , 100 , 21)
+model.length_2 = st.sidebar.slider('length_2' , 2 , 100 , 36)
 
 # if st.sidebar.button('Run_model'):
 #         model =  Run_model()
