@@ -92,14 +92,14 @@ class Run_model :
     @property 
     def  nav (self):
         nav_dataset = self.deep
-        nav_dataset['Tomorrows_Returns'] = np.log(nav_dataset['OHLC4']/nav_dataset['OHLC4'].shift(1))
-        nav_dataset['Tomorrows_Returns'] = nav_dataset['Tomorrows_Returns'].shift(-1)
-        nav_dataset['Strategy_Returns'] = np.where(nav_dataset['Predict'] == True  , nav_dataset['Tomorrows_Returns']  , -nav_dataset['Tomorrows_Returns'] )
+        nav_dataset['Next_Returns'] = np.log(nav_dataset['OHLC4']/nav_dataset['OHLC4'].shift(1))
+        nav_dataset['Next_Returns'] = nav_dataset['Next_Returns'].shift(-1)
+        nav_dataset['Strategy_Returns'] = np.where(nav_dataset['Predict'] == True  , nav_dataset['Next_Returns']  , -nav_dataset['Next_Returns'] )
         nav_dataset['Cumulative_Returns'] = np.cumsum(nav_dataset['Strategy_Returns'])
         nav_dataset = nav_dataset.iloc[: , 5:].drop(columns=['y_Reg'])
         plt.figure(figsize=(12,8))
         plt.plot(nav_dataset['Cumulative_Returns'], color='k',  alpha=0.60 )
-        st.write('Nav:' , round((nav_dataset.Cumulative_Returns[-2]) , 4 ))
+        st.write('Score:' , round((nav_dataset.Cumulative_Returns[-2]) , 4 ))
         st.pyplot()
         return nav_dataset
     
