@@ -165,7 +165,7 @@ model.length_2 = st.sidebar.slider('length_2' , 2 , 100 , 36)
 
 model.pair_data = st.sidebar.text_input('data' , "ETH-PERP")
 model.timeframe = st.sidebar.selectbox('timeframe',('1h' , '5m' , '15m' , '1h', '4h' ,'1d'))
-model.start_test =  np.datetime64(st.sidebar.date_input('start_test', value= dt.datetime(2020, 7, 2, 0, 0)))
+model.start_test =  np.datetime64(st.sidebar.date_input('start_test', value= dt.datetime(2020, 7, 3, 0, 0)))
 pyplot = model.chart
 pyplot = model.nav
 st.write(pyplot.iloc[: , 7:])
