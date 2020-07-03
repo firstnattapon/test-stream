@@ -140,7 +140,7 @@ st.sidebar.header('(2020, 7 , 3) \n')
 # model.sleep = st.sidebar.slider('sleep' , 0.0 , 6.0 , 3.0)
 
 st.sidebar.text("_"*50)
-st.sidebar.text("start_capital : {}".format (model.start_capital))
+# st.sidebar.text("start_capital : {}".format (model.start_capital))
 st.sidebar.text("Dense_11 : {}".format (model.Dense_11))
 st.sidebar.text("Dense_12 : {}".format (model.Dense_12))
 st.sidebar.text("Dense_21 : {}".format (model.Dense_21))
@@ -161,5 +161,5 @@ model.timeframe = st.sidebar.selectbox('timeframe',('1h' , '5m' , '15m' , '1h', 
 model.start_test =  np.datetime64(st.sidebar.date_input('start_test', value= dt.datetime(2020, 7, 3, 0, 0)))
 pyplot = model.chart
 pyplot = model.nav
-st.write(pyplot.iloc[: , 6:])
+st.write(pyplot.iloc[: , :])
 st.write('\n\nhttps://github.com/firstnattapon/test-stream/edit/master/app.py')
