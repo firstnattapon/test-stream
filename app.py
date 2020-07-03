@@ -152,8 +152,8 @@ st.sidebar.text("Dense_31 : {}".format (model.Dense_31))
 st.sidebar.text("Dense_32 : {}".format (model.Dense_32))
 st.sidebar.text("_"*45)
 
-model.input_1 = st.sidebar.text_input('input_1' ,'rsi')
-model.input_2 = st.sidebar.text_input('input_2' ,'rsi')
+model.input_1 = st.text_input('input_1' ,'rsi')
+model.input_2 = st.text_input('input_2' ,'rsi')
 model.length_1 = st.sidebar.slider('length_1' , 2 , 100 , 21)
 model.length_2 = st.sidebar.slider('length_2' , 2 , 100 , 36)
 
