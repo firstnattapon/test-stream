@@ -102,6 +102,7 @@ class Run_model :
         plt.plot(nav_dataset['Cumulative_Returns'], color='k',  alpha=0.60 )
         st.write('Score:' , round((nav_dataset.Cumulative_Returns[-2]) , 4 ))
         st.pyplot()
+        nav_dataset = nav_dataset.dropna()
         return nav_dataset
     
     @property 
