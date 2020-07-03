@@ -63,7 +63,6 @@ class Run_model :
         dataset['input_1'] = dataset.ta.rsi(length= self.length_1 , scalar=1 , append=False)
         dataset['input_2'] = dataset.ta.rsi(length= self.length_2 , scalar=1 , append=False)
         dataset = dataset.fillna(0)
-        dataset = dataset.dropna()
         dataset['y_Reg'] = dataset['OHLC4'].shift(-1).fillna(dataset.OHLC4[-1])
         X = dataset.iloc[ : , 1:-1]  ;  y_Reg = dataset.iloc[ : ,[ -1]] 
         return X , y_Reg , dataset
