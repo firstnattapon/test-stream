@@ -130,7 +130,7 @@ class Run_model :
                 sleep(self.sleep)
 #____________________________________________________________________________     
 model =  Run_model()
-st.title('start_datetime(2020, 7 , 3)')
+st.title('start_datetime(2020, 7 , 3)\n')
 
 # model.pair_trade = st.sidebar.text_input('Symbol' , 'ETH-PERPETUAL')
 # model.apiKey = st.sidebar.text_input('apiKey' , "AtdG0K3k")
