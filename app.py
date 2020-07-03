@@ -75,6 +75,7 @@ class Run_model :
         dataset['Dense_2']  =  dataset.apply((lambda x :  max(0, ((self.Dense_21 * x.input_1)+(self.Dense_22  * x.input_2)+ 0))) , axis=1)
         dataset['Output']   =  dataset.apply((lambda x :  (((self.Dense_31) * x.Dense_1 ))+((self.Dense_32) * x.Dense_2 )+ 0 ) , axis=1)
         dataset['Predict']  =  dataset.Output.shift(1) <  dataset.Output.shift(0)
+        dataset = dataset.dropna()
         return dataset
     
     @property 
