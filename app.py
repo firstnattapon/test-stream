@@ -137,7 +137,7 @@ model =  Run_model()
 st.sidebar.header('(2020, 7 , 3) \n')
 st.sidebar.text("_"*45)
 
-selectbox = lambda x : st.selectbox('input_{}'.format(x),
+selectbox = lambda x : st.sidebar.selectbox('input_{}'.format(x),
     ('ad', 'ao',  'apo',  'atr', 'bop', 'cci', 'cg', 'cmf', 'cmo', 'coppock', 'decreasing', 
     'dema', 'dpo', 'efi', 'ema', 'eom', 'fisher', 'fwma', 'hl2', 'hlc3', 'hma', 'increasing', 
     'kama', 'kurtosis', 'linear_decay', 'linreg', 'log_return', 'mad', 'median', 'mfi', 
@@ -149,16 +149,19 @@ selectbox = lambda x : st.selectbox('input_{}'.format(x),
 model.input_1 = selectbox(1)
 model.input_2 = selectbox(2)
 
+st.sidebar.text("_"*45)
 model.length_1 = st.sidebar.slider('length_1' , 2 , 100 , 21)
 model.length_2 = st.sidebar.slider('length_2' , 2 , 100 , 36)
 model.pair_data = st.sidebar.text_input('data' , "ETH-PERP")
 model.timeframe = st.sidebar.selectbox('timeframe',('1h' , '5m' , '15m' , '1h', '4h' ,'1d'))
 model.start_test =  np.datetime64(st.sidebar.date_input('start_test', value= dt.datetime(2020, 7, 3, 0, 0)))
+
 pyplot = model.chart
 pyplot = model.nav
 st.write(pyplot.iloc[: , :])
 st.write('\n\nhttps://github.com/firstnattapon/test-stream/edit/master/app.py')
 
+st.sidebar.text("_"*45)
 st.sidebar.text("Dense_11 : {}".format (model.Dense_11))
 st.sidebar.text("Dense_12 : {}".format (model.Dense_12))
 st.sidebar.text("Dense_21 : {}".format (model.Dense_21))
