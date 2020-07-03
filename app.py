@@ -130,6 +130,7 @@ class Run_model :
                 sleep(self.sleep)
 #____________________________________________________________________________     
 model =  Run_model()
+st.title('start_datetime(2020, 7 , 3)')
 
 # model.pair_trade = st.sidebar.text_input('Symbol' , 'ETH-PERPETUAL')
 # model.apiKey = st.sidebar.text_input('apiKey' , "AtdG0K3k")
@@ -139,12 +140,20 @@ model =  Run_model()
 
 st.sidebar.text("_"*50)
 # st.sidebar.text("start_capital : {}".format (model.start_capital))
-st.sidebar.text("Dense_11 : {}".format (model.Dense_11))
-st.sidebar.text("Dense_12 : {}".format (model.Dense_12))
-st.sidebar.text("Dense_21 : {}".format (model.Dense_21))
-st.sidebar.text("Dense_22 : {}".format (model.Dense_22))
-st.sidebar.text("Dense_31 : {}".format (model.Dense_31))
-st.sidebar.text("Dense_32 : {}".format (model.Dense_32))
+# st.sidebar.text("Dense_11 : {}".format (model.Dense_11))
+# st.sidebar.text("Dense_12 : {}".format (model.Dense_12))
+# st.sidebar.text("Dense_21 : {}".format (model.Dense_21))
+# st.sidebar.text("Dense_22 : {}".format (model.Dense_22))
+# st.sidebar.text("Dense_31 : {}".format (model.Dense_31))
+# st.sidebar.text("Dense_32 : {}".format (model.Dense_32))
+
+st.sidebar.text("NB_11 : {}".format (model.Dense_11))
+st.sidebar.text("NB_12 : {}".format (model.Dense_12))
+st.sidebar.text("NB_21 : {}".format (model.Dense_21))
+st.sidebar.text("NB_22 : {}".format (model.Dense_22))
+st.sidebar.text("NB_31 : {}".format (model.Dense_31))
+st.sidebar.text("NB_32 : {}".format (model.Dense_32))
+
 st.sidebar.text("_"*50)
 
 model.length_1 = st.sidebar.slider('length_1' , 2 , 100 , 21)
@@ -159,5 +168,5 @@ model.timeframe = st.sidebar.selectbox('timeframe',('1h' , '5m' , '15m' , '1h', 
 model.start_test =  np.datetime64(st.sidebar.date_input('start_test', value= dt.datetime(2020, 7, 2, 0, 0)))
 pyplot = model.chart
 pyplot = model.nav
-st.write(pyplot)
-st.write('\n\nhttps://github.com/firstnattapon/test-stream/edit/master/app.py')
+st.write(pyplot.iloc[: , 7:])
+# st.write('\n\nhttps://github.com/firstnattapon/test-stream/edit/master/app.py')
