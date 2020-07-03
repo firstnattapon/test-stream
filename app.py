@@ -26,9 +26,9 @@ class Run_model :
         self.Dense_32 = 0.04132303
         self.start_capital = 225.00
         self.sleep = 3
-        self.timeframe = "15m"  
+        self.timeframe = "1h"  
         self.limit = 500
-        self.start_test = dt.datetime(2020, 7 , 2 , 0 , 0)
+        self.start_test = dt.datetime(2020, 7 , 3 , 0 , 0)
         self.length_1 = 21
         self.length_2 = 36
         
@@ -155,7 +155,7 @@ model.length_2 = st.sidebar.slider('length_2' , 2 , 100 , 36)
 #         model.trade
 
 model.pair_data = st.sidebar.text_input('data' , "ETH-PERP")
-model.timeframe = st.sidebar.selectbox('timeframe',('15m' , '5m' ,  '1h', '4h' ,'1d' ))
+model.timeframe = st.sidebar.selectbox('timeframe',('1h' , '5m' , '15m' , '1h', '4h' ,'1d'))
 model.start_test =  np.datetime64(st.sidebar.date_input('start_test', value= dt.datetime(2020, 7, 2, 0, 0)))
 pyplot = model.chart
 pyplot = model.nav
