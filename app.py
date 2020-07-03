@@ -31,6 +31,8 @@ class Run_model :
         self.start_test = dt.datetime(2020, 7 , 3 , 0 , 0)
         self.length_1 = 21
         self.length_2 = 36
+        self.input_1  = 'rsi'
+        self.input_2  = 'rsi'
         
     @property
     def ex_api (self):
@@ -60,8 +62,8 @@ class Run_model :
     def talib (self): # ตัวแปร
         dataset = self.dataset
         dataset.ta.ohlc4(append=True)
-        dataset['input_1'] = dataset.ta.rsi(length= self.length_1 , scalar=1 , append=False)
-        dataset['input_2'] = dataset.ta.rsi(length= self.length_2 , scalar=1 , append=False)
+        dataset['input_1'] = dataset.ta(kind=self.input_1 , length= self.length_1 , scalar=1 , append=False)
+        dataset['input_2'] = dataset.ta(kind=self.input_2 , length= self.length_2 , scalar=1 , append=False)
         dataset = dataset.fillna(0)
         dataset['y_Reg'] = dataset['OHLC4'].shift(-1).fillna(dataset.OHLC4[-1])
         X = dataset.iloc[ : , 1:-1]  ;  y_Reg = dataset.iloc[ : ,[ -1]] 
@@ -150,6 +152,8 @@ st.sidebar.text("Dense_31 : {}".format (model.Dense_31))
 st.sidebar.text("Dense_32 : {}".format (model.Dense_32))
 st.sidebar.text("_"*45)
 
+model.input_1 = st.sidebar.text_input('input_1' ,'rsi')
+model.input_2 = st.sidebar.text_input('input_2' ,'rsi')
 model.length_1 = st.sidebar.slider('length_1' , 2 , 100 , 21)
 model.length_2 = st.sidebar.slider('length_2' , 2 , 100 , 36)
 
