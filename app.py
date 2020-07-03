@@ -131,7 +131,7 @@ class Run_model :
 #____________________________________________________________________________     
 
 model =  Run_model()
-st.sidebar.header('เริ่ม (2020, 7 , 3) \n')
+st.sidebar.header('(2020, 7 , 3) \n')
 
 # model.pair_trade = st.sidebar.text_input('Symbol' , 'ETH-PERPETUAL')
 # model.apiKey = st.sidebar.text_input('apiKey' , "AtdG0K3k")
