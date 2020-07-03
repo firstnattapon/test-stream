@@ -33,7 +33,7 @@ class Run_model :
         self.length_2 = 36
         
     @property
-    def  ex_api (self):
+    def ex_api (self):
         if self.ex == "ftx" :
             exchange = ccxt.ftx({'apiKey': self.apiKey ,'secret': self.secret  , 'enableRateLimit': True }) 
         elif self.ex == "deribit":
@@ -42,7 +42,7 @@ class Run_model :
         return exchange
         
     @property
-    def  dataset (self):
+    def dataset (self):
         self.exchange = ccxt.ftx({'apiKey': '' ,'secret': ''  , 'enableRateLimit': True }) 
         timeframe = self.timeframe 
         limit =  self.limit 
@@ -57,7 +57,7 @@ class Run_model :
         return dataset
 
     @property  
-    def  talib (self): # ตัวแปร
+    def talib (self): # ตัวแปร
         dataset = self.dataset
         dataset.ta.ohlc4(append=True)
         dataset['input_1'] = dataset.ta.rsi(length= self.length_1 , scalar=1 , append=False)
@@ -71,14 +71,14 @@ class Run_model :
     @property  
     def deep (self):
         _,_, dataset = self.talib 
-        dataset['Dense_1'] = dataset.apply((lambda x :  max(0, ((self.Dense_11 * x.input_1)+(self.Dense_12  * x.input_2)+ 0))) , axis=1)
-        dataset['Dense_2'] = dataset.apply((lambda x :  max(0, ((self.Dense_21 * x.input_1)+(self.Dense_22  * x.input_2)+ 0))) , axis=1)
-        dataset['Output'] = dataset.apply((lambda x :  (((self.Dense_31) * x.Dense_1 )) + ((self.Dense_32) * x.Dense_2 )+ 0 ) , axis=1)
-        dataset['Predict'] =  dataset.Output.shift(1) <  dataset.Output.shift(0)
+        dataset['Dense_1']  =  dataset.apply((lambda x :  max(0, ((self.Dense_11 * x.input_1)+(self.Dense_12  * x.input_2)+ 0))) , axis=1)
+        dataset['Dense_2']  =  dataset.apply((lambda x :  max(0, ((self.Dense_21 * x.input_1)+(self.Dense_22  * x.input_2)+ 0))) , axis=1)
+        dataset['Output']   =  dataset.apply((lambda x :  (((self.Dense_31) * x.Dense_1 ))+((self.Dense_32) * x.Dense_2 )+ 0 ) , axis=1)
+        dataset['Predict']  =  dataset.Output.shift(1) <  dataset.Output.shift(0)
         return dataset
     
     @property 
-    def  chart (self):
+    def chart (self):
         dataset = self.deep
         dataset['buy'] =  dataset.apply(lambda x : np.where( x.Predict == True , x.OHLC4 , None) , axis=1)
         dataset['sell'] = dataset.apply(lambda x : np.where( x.Predict == False, x.OHLC4 , None) , axis=1)
@@ -90,7 +90,7 @@ class Run_model :
         st.pyplot()
 
     @property 
-    def  nav (self):
+    def nav (self):
         nav_dataset = self.deep
         nav_dataset['Next_Returns'] = np.log(nav_dataset['OHLC4']/nav_dataset['OHLC4'].shift(1))
         nav_dataset['Next_Returns'] = nav_dataset['Next_Returns'].shift(-1)
@@ -129,6 +129,7 @@ class Run_model :
                 bar.progress(i + 1)
                 sleep(self.sleep)
 #____________________________________________________________________________     
+
 model =  Run_model()
 st.sidebar.header('เริ่ม (2020, 7 , 3) \n')
 
@@ -139,21 +140,13 @@ st.sidebar.header('เริ่ม (2020, 7 , 3) \n')
 # model.sleep = st.sidebar.slider('sleep' , 0.0 , 6.0 , 3.0)
 
 st.sidebar.text("_"*50)
-# st.sidebar.text("start_capital : {}".format (model.start_capital))
-# st.sidebar.text("Dense_11 : {}".format (model.Dense_11))
-# st.sidebar.text("Dense_12 : {}".format (model.Dense_12))
-# st.sidebar.text("Dense_21 : {}".format (model.Dense_21))
-# st.sidebar.text("Dense_22 : {}".format (model.Dense_22))
-# st.sidebar.text("Dense_31 : {}".format (model.Dense_31))
-# st.sidebar.text("Dense_32 : {}".format (model.Dense_32))
-
-st.sidebar.text("NB_11 : {}".format (model.Dense_11))
-st.sidebar.text("NB_12 : {}".format (model.Dense_12))
-st.sidebar.text("NB_21 : {}".format (model.Dense_21))
-st.sidebar.text("NB_22 : {}".format (model.Dense_22))
-st.sidebar.text("NB_31 : {}".format (model.Dense_31))
-st.sidebar.text("NB_32 : {}".format (model.Dense_32))
-
+st.sidebar.text("start_capital : {}".format (model.start_capital))
+st.sidebar.text("Dense_11 : {}".format (model.Dense_11))
+st.sidebar.text("Dense_12 : {}".format (model.Dense_12))
+st.sidebar.text("Dense_21 : {}".format (model.Dense_21))
+st.sidebar.text("Dense_22 : {}".format (model.Dense_22))
+st.sidebar.text("Dense_31 : {}".format (model.Dense_31))
+st.sidebar.text("Dense_32 : {}".format (model.Dense_32))
 st.sidebar.text("_"*50)
 
 model.length_1 = st.sidebar.slider('length_1' , 2 , 100 , 21)
@@ -169,4 +162,4 @@ model.start_test =  np.datetime64(st.sidebar.date_input('start_test', value= dt.
 pyplot = model.chart
 pyplot = model.nav
 st.write(pyplot.iloc[: , 6:])
-# st.write('\n\nhttps://github.com/firstnattapon/test-stream/edit/master/app.py')
+st.write('\n\nhttps://github.com/firstnattapon/test-stream/edit/master/app.py')
