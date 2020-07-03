@@ -159,4 +159,4 @@ model.start_test =  np.datetime64(st.sidebar.date_input('start_test', value= dt.
 pyplot = model.chart
 pyplot = model.nav
 st.write(pyplot)
-st.write('https://github.com/firstnattapon/test-stream/edit/master/app.py')
+st.write('\nhttps://github.com/firstnattapon/test-stream/edit/master/app.py')
