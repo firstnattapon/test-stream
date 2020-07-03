@@ -152,7 +152,7 @@ st.sidebar.text("Dense_31 : {}".format (model.Dense_31))
 st.sidebar.text("Dense_32 : {}".format (model.Dense_32))
 st.sidebar.text("_"*45)
 
-model.input_1 = st.text_input('input_1' ,'rsi')
+# model.input_1 = st.text_input('input_1' ,'rsi')
 model.input_2 = st.text_input('input_2' ,'rsi')
 model.length_1 = st.sidebar.slider('length_1' , 2 , 100 , 21)
 model.length_2 = st.sidebar.slider('length_2' , 2 , 100 , 36)
@@ -168,3 +168,13 @@ pyplot = model.chart
 pyplot = model.nav
 st.write(pyplot.iloc[: , :])
 st.write('\n\nhttps://github.com/firstnattapon/test-stream/edit/master/app.py')
+
+model.input_1 = st.selectbox(
+    'input_1',
+    ('ad', 'ao',  'apo',  'atr', 'bop', 'cci', 'cg', 'cmf', 'cmo', 'coppock', 'decreasing', 
+    'dema', 'dpo', 'efi', 'ema', 'eom', 'fisher', 'fwma', 'hl2', 'hlc3', 'hma', 'increasing', 
+    'kama', 'kurtosis', 'linear_decay', 'linreg', 'log_return', 'mad', 'median', 'mfi', 
+    'midpoint', 'midprice', 'mom', 'natr', 'nvi', 'obv', 'ohlc4', 'percent_return', 'pvi', 
+    'pvol', 'pvt', 'pwma', 'qstick', 'quantile', 'rma', 'roc', 'rsi', 'sinwma', 'skew', 'slope', 
+    'sma', 'stdev', 'swma', 't3', 'tema', 'trend_return', 'trima', 'trix', 'true_range', 'uo', 
+    'variance', 'vwap', 'vwma', 'willr', 'wma', 'zlma', 'zscore'))
