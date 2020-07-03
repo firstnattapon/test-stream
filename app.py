@@ -14,8 +14,8 @@ import numpy as np
 class Run_model :
     def __init__(self , ex='deribit'):
         self.ex = ex
-        self.pair_data = "BTC-PERP"
-        self.pair_trade = 'BTC-PERPETUAL'
+        self.pair_data = "ETH-PERP"
+        self.pair_trade = 'ETH-PERPETUAL'
         self.apiKey ="AtdG0K3k"
         self.secret ="lItUXWckP2PNN-uPnrP_h_0dsctCXdFVP9x73bwo3Nc"
         self.Dense_11 = 0.03380605
@@ -156,7 +156,7 @@ model.length_2 = st.sidebar.slider('length_2' , 2 , 100 , 36)
 #         model =  Run_model()
 #         model.trade
 
-model.pair_data = st.sidebar.text_input('data' , "BTC-PERP")
+model.pair_data = st.sidebar.text_input('data' , "ETH-PERP")
 model.timeframe = st.sidebar.selectbox('timeframe',('1h' , '5m' , '15m' , '1h', '4h' ,'1d'))
 model.start_test =  np.datetime64(st.sidebar.date_input('start_test', value= dt.datetime(2020, 7, 3, 0, 0)))
 pyplot = model.chart
