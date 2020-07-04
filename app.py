@@ -137,8 +137,8 @@ model =  Run_model()
 st.sidebar.header('(2020, 7 , 3) \n')
 st.sidebar.text("_"*45)
 
-selectbox = lambda x : st.sidebar.selectbox('input_{}'.format(x),
-    ('ad', 'ao', 'atr', 'bop', 'cci', 'cg', 'cmf', 'cmo', 'coppock', 'decreasing', 
+selectbox = lambda x, y : st.sidebar.selectbox('input_{}'.format(x),
+    ( y ,'ad', 'ao', 'atr', 'bop', 'cci', 'cg', 'cmf', 'cmo', 'coppock', 'decreasing', 
     'dema', 'dpo', 'efi', 'ema', 'eom', 'fisher', 'fwma', 'hl2', 'hlc3', 'hma', 'increasing', 
     'kama', 'kurtosis', 'linear_decay', 'linreg', 'log_return', 'mad', 'median', 'mfi', 
     'midpoint', 'midprice', 'mom', 'natr', 'nvi', 'obv', 'ohlc4', 'percent_return', 'pvi', 
@@ -146,12 +146,12 @@ selectbox = lambda x : st.sidebar.selectbox('input_{}'.format(x),
     'sma', 'stdev', 'swma', 't3', 'tema' ,'trima', 'trix', 'true_range', 'uo', 
     'variance', 'vwap', 'vwma', 'willr', 'wma', 'zlma', 'zscore'))
 
-model.input_1 = selectbox(1)
-model.input_2 = selectbox(2)
+model.input_1 = selectbox(1 ,'sma')
+model.input_2 = selectbox(2 ,'rsi')
 
 st.sidebar.text("_"*45)
-model.length_1 = st.sidebar.slider('length_1' , 2 , 120 , 21)
-model.length_2 = st.sidebar.slider('length_2' , 2 , 120 , 36)
+model.length_1 = st.sidebar.slider('length_1' , 2 , 120 , 20)
+model.length_2 = st.sidebar.slider('length_2' , 2 , 120 , 35)
 st.sidebar.text("_"*45)
 
 model.pair_data = st.sidebar.text_input('data' , "ETH-PERP")
