@@ -166,15 +166,13 @@ model.timeframe = st.sidebar.selectbox('timeframe',('1h' , '5m' , '15m' , '1h', 
 model.start_test =  np.datetime64(st.sidebar.date_input('start_test', value= dt.datetime(2020, 7, 3, 0, 0)))
 
 st.sidebar.text("_"*45)
-st.sidebar.text("Dense_11 : {}".format (model.Dense_11))
-st.sidebar.text("Dense_12 : {}".format (model.Dense_12))
-st.sidebar.text("Dense_21 : {}".format (model.Dense_21))
-st.sidebar.text("Dense_22 : {}".format (model.Dense_22))
-st.sidebar.text("Dense_31 : {}".format (model.Dense_31))
-st.sidebar.text("Dense_32 : {}".format (model.Dense_32))
-
-st.sidebar.text("_"*45)
 pyplot = model.chart
 pyplot = model.nav
 st.write(pyplot.iloc[: , :])
 st.write('\n\nhttps://github.com/firstnattapon/test-stream/edit/master/app.py')
+st.text("Dense_11 : {}".format (model.Dense_11))
+st.text("Dense_12 : {}".format (model.Dense_12))
+st.text("Dense_21 : {}".format (model.Dense_21))
+st.text("Dense_22 : {}".format (model.Dense_22))
+st.text("Dense_31 : {}".format (model.Dense_31))
+st.text("Dense_32 : {}".format (model.Dense_32))
