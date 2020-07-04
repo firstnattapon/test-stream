@@ -18,19 +18,19 @@ class Run_model :
         self.pair_trade = 'ETH-PERPETUAL'
         self.apiKey ="AtdG0K3k"
         self.secret ="lItUXWckP2PNN-uPnrP_h_0dsctCXdFVP9x73bwo3Nc"
-        self.Dense_11 = 0.03380605
-        self.Dense_12 = -0.04777157
-        self.Dense_21 = 0.00379837
-        self.Dense_22 = 0.026092
-        self.Dense_31 = -0.03202482
-        self.Dense_32 = 0.04132303
+        self.Dense_11 = 0.02
+        self.Dense_12 = -0.05
+        self.Dense_21 = -0.02
+        self.Dense_22 = 0.02
+        self.Dense_31 = -0.02
+        self.Dense_32 = 0.01
         self.start_capital = 225.00
         self.sleep = 3
         self.timeframe = "1h"  
         self.limit = 500
         self.start_test = dt.datetime(2020, 7 , 3 , 0 , 0)
-        self.length_1 = 21
-        self.length_2 = 36
+        self.length_1 = 19
+        self.length_2 = 35
         self.input_1  = 'rsi'
         self.input_2  = 'rsi'
         
