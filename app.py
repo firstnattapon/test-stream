@@ -153,12 +153,12 @@ model.length_1 = st.sidebar.slider('length_1' , 2 , 120 , 20)
 model.length_2 = st.sidebar.slider('length_2' , 2 , 120 , 35)
 
 st.sidebar.text("_"*45)
-model.Dense_11 = st.sidebar.slider('Dense_11' , -1.0 , 1.0 , model.Dense_11)
-model.Dense_12 = st.sidebar.slider('Dense_12' , -1.0 , 1.0 , model.Dense_12)
-model.Dense_21 = st.sidebar.slider('Dense_21' , -1.0 , 1.0 , model.Dense_21)
-model.Dense_22 = st.sidebar.slider('Dense_22' , -1.0 , 1.0 , model.Dense_22)
-model.Dense_31 = st.sidebar.slider('Dense_31' , -1.0 , 1.0 , model.Dense_31)
-model.Dense_32 = st.sidebar.slider('Dense_32' , -1.0 , 1.0 , model.Dense_32)
+model.Dense_11 = st.sidebar.number_input('Dense_11' , -1.0 , 1.0 , model.Dense_11)
+model.Dense_12 = st.sidebar.number_input('Dense_12' , -1.0 , 1.0 , model.Dense_12)
+model.Dense_21 = st.sidebar.number_input('Dense_21' , -1.0 , 1.0 , model.Dense_21)
+model.Dense_22 = st.sidebar.number_input('Dense_22' , -1.0 , 1.0 , model.Dense_22)
+model.Dense_31 = st.sidebar.number_input('Dense_31' , -1.0 , 1.0 , model.Dense_31)
+model.Dense_32 = st.sidebar.number_input('Dense_32' , -1.0 , 1.0 , model.Dense_32)
 
 st.sidebar.text("_"*45)
 model.pair_data = st.sidebar.text_input('data' , "TOMO-PERP")
@@ -169,6 +169,8 @@ st.sidebar.text("_"*45)
 pyplot = model.chart
 pyplot = model.nav
 st.write(pyplot.iloc[: , :])
+
+st.text("")
 st.write('\n\nhttps://github.com/firstnattapon/test-stream/edit/master/app.py')
 st.text("Dense_11 : {}".format (model.Dense_11))
 st.text("Dense_12 : {}".format (model.Dense_12))
