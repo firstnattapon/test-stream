@@ -134,7 +134,7 @@ class Run_model :
 #____________________________________________________________________________     
 
 model =  Run_model()
-st.sidebar.header('(2020, 7 , 3) \n')
+st.sidebar.header('(2020, 7 , 4) \n')
 selectbox = lambda x, y : st.sidebar.selectbox('input_{}'.format(x),
     ( y ,'ad', 'ao', 'atr', 'bop', 'cci', 'cg', 'cmf', 'cmo', 'coppock', 'decreasing', 
     'dema', 'dpo', 'efi', 'ema', 'eom', 'fisher', 'fwma', 'hl2', 'hlc3', 'hma', 'increasing', 
@@ -163,7 +163,7 @@ model.Dense_32 = st.sidebar.number_input('Dense_32' , -1.0 , 1.0 , model.Dense_3
 st.sidebar.text("_"*45)
 model.pair_data = st.sidebar.text_input('data' , "TOMO-PERP")
 model.timeframe = st.sidebar.selectbox('timeframe',('1h' , '5m' , '15m' , '1h', '4h' ,'1d'))
-model.start_test =  np.datetime64(st.sidebar.date_input('start_test', value= dt.datetime(2020, 7, 3, 0, 0)))
+model.start_test =  np.datetime64(st.sidebar.date_input('start_test', value= dt.datetime(2020, 7, 4, 0, 0)))
 
 st.sidebar.text("_"*45)
 pyplot = model.chart
