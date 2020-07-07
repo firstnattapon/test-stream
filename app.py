@@ -149,8 +149,8 @@ model.input_1 = selectbox(1 ,'sma')
 model.input_2 = selectbox(2 ,'rsi')
 
 st.sidebar.text("_"*45)
-model.length_1 = st.sidebar.slider('length_1' , 2 , 120 , 20)
-model.length_2 = st.sidebar.slider('length_2' , 2 , 120 , 35)
+model.length_1 = st.sidebar.slider('length_1' , 2 , 120 , 35)
+model.length_2 = st.sidebar.slider('length_2' , 2 , 120 , 2)
 
 st.sidebar.text("_"*45)
 model.Dense_11 = st.sidebar.number_input('Dense_11' , -1.0 , 1.0 , model.Dense_11)
