@@ -19,7 +19,7 @@ class Run_model :
         self.apiKey ="AtdG0K3k"
         self.secret ="lItUXWckP2PNN-uPnrP_h_0dsctCXdFVP9x73bwo3Nc"
         self.Dense_11 = 0.01
-        self.Dense_12 = 0.01
+        self.Dense_12 = 0.02
         self.Dense_21 = -0.01
         self.Dense_22 = 0.03
         self.Dense_31 = 0.01
