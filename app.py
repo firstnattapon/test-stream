@@ -67,7 +67,7 @@ class Run_model :
         if self.input_1 == 'seed':
             prng_1 = SHA256(self.length_1)
             p_1 = prng_1.random(1)[0]
-            dataset['input_1'] = dataset.OHLC4.map(lambda x: np.log(x) / p_1)
+            dataset['input_1'] = dataset.OHLC4.map(lambda x: np.log(x) % p_1)
             st.write(p_1)
         else:
             dataset['input_1'] = dataset.ta(kind=self.input_1 , length= self.length_1 , scalar=1 , append=False)
@@ -76,7 +76,7 @@ class Run_model :
             prng_2 = SHA256(self.length_2)
             p_2 = prng_2.random(1)[0]
             st.write(p_2)
-            dataset['input_2'] = dataset.OHLC4.map(lambda x: np.log(x) / p_2)
+            dataset['input_2'] = dataset.OHLC4.map(lambda x: np.log(x) % p_2)
         else:
             dataset['input_2'] = dataset.ta(kind=self.input_2 , length= self.length_2 , scalar=1 , append=False)   
             
@@ -165,8 +165,8 @@ model.input_1 = selectbox(1 ,'sma')
 model.input_2 = selectbox(2 ,'rsi')
 
 st.sidebar.text("_"*45)
-model.length_1 = st.sidebar.slider('length_1' , 2 , 120 , 20)
-model.length_2 = st.sidebar.slider('length_2' , 2 , 120 , 40)
+model.length_1 = st.sidebar.slider('length_1' , 2 , 500 , 20)
+model.length_2 = st.sidebar.slider('length_2' , 2 , 500 , 40)
 
 st.sidebar.text("_"*45)
 model.Dense_11 = st.sidebar.number_input('Dense_11' , -1.0 , 1.0 , model.Dense_11)
