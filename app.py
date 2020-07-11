@@ -67,16 +67,14 @@ class Run_model :
         if self.input_1 == 'seed':
             prng_1 = SHA256(self.length_1)
             p_1 = prng_1.random(1)[0]
-            dataset['input_1'] = dataset.OHLC4.map(lambda x: np.log(x) % p_1)
-            st.write(p_1)
+            dataset['input_1'] = dataset.OHLC4.map(lambda x: x % p_1)
         else:
             dataset['input_1'] = dataset.ta(kind=self.input_1 , length= self.length_1 , scalar=1 , append=False)
             
         if self.input_2 == 'seed':
             prng_2 = SHA256(self.length_2)
             p_2 = prng_2.random(1)[0]
-            st.write(p_2)
-            dataset['input_2'] = dataset.OHLC4.map(lambda x: np.log(x) % p_2)
+            dataset['input_2'] = dataset.OHLC4.map(lambda x: x % p_2)
         else:
             dataset['input_2'] = dataset.ta(kind=self.input_2 , length= self.length_2 , scalar=1 , append=False)   
             
@@ -169,12 +167,12 @@ model.length_1 = st.sidebar.slider('length_1' , 2 , 500 , 20)
 model.length_2 = st.sidebar.slider('length_2' , 2 , 500 , 40)
 
 st.sidebar.text("_"*45)
-model.Dense_11 = st.sidebar.number_input('Dense_11' , -1.0 , 1.0 , model.Dense_11)
-model.Dense_12 = st.sidebar.number_input('Dense_12' , -1.0 , 1.0 , model.Dense_12)
-model.Dense_21 = st.sidebar.number_input('Dense_21' , -1.0 , 1.0 , model.Dense_21)
-model.Dense_22 = st.sidebar.number_input('Dense_22' , -1.0 , 1.0 , model.Dense_22)
-model.Dense_31 = st.sidebar.number_input('Dense_31' , -1.0 , 1.0 , model.Dense_31)
-model.Dense_32 = st.sidebar.number_input('Dense_32' , -1.0 , 1.0 , model.Dense_32)
+model.Dense_11 = st.sidebar.number_input('Dense_11' , -10.0 , 10.0 , model.Dense_11)
+model.Dense_12 = st.sidebar.number_input('Dense_12' , -10.0 , 10.0 , model.Dense_12)
+model.Dense_21 = st.sidebar.number_input('Dense_21' , -10.0 , 10.0 , model.Dense_21)
+model.Dense_22 = st.sidebar.number_input('Dense_22' , -10.0 , 10.0 , model.Dense_22)
+model.Dense_31 = st.sidebar.number_input('Dense_31' , -10.0 , 10.0 , model.Dense_31)
+model.Dense_32 = st.sidebar.number_input('Dense_32' , -10.0 , 10.0 , model.Dense_32)
 
 st.sidebar.text("_"*45)
 model.pair_data = st.sidebar.text_input('data' , "TOMO-PERP")
