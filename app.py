@@ -67,7 +67,7 @@ class Run_model :
         if self.input_1 == 'seed':
             prng_1 = SHA256(self.length_1)
             p_1 = prng_1.random(1)[0]
-            dataset['input_1'] = dataset.map(lambda x: x*p_1)
+            dataset['input_1'] = dataset.OHLC4.map(lambda x: x*p_1)
             st.write(p_1)
         else:
             dataset['input_1'] = dataset.ta(kind=self.input_1 , length= self.length_1 , scalar=1 , append=False)
