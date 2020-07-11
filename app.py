@@ -158,7 +158,7 @@ selectbox = lambda x, y : st.sidebar.selectbox('input_{}'.format(x),
     'sma', 'stdev', 'swma', 'seed' , 't3', 'tema' ,'trima', 'trix', 'true_range', 'uo', 
     'variance', 'vwap', 'vwma', 'willr', 'wma', 'zlma', 'zscore'))
 
-st.sidebar.text("____")
+st.sidebar.text("_"*45)
 model.input_1 = selectbox(1 ,'rsi')
 model.input_2 = selectbox(2 ,'rsi')
 
@@ -166,7 +166,7 @@ st.sidebar.text("_"*45)
 model.length_1 = st.sidebar.slider('length_1' , 2 , 500 , 20)
 model.length_2 = st.sidebar.slider('length_2' , 2 , 500 , 40)
 
-st.sidebar.text("____")
+st.sidebar.text("_"*45)
 model.Dense_11 = st.sidebar.number_input('Dense_11' , -10.0 , 10.0 , model.Dense_11)
 model.Dense_12 = st.sidebar.number_input('Dense_12' , -10.0 , 10.0 , model.Dense_12)
 model.Dense_21 = st.sidebar.number_input('Dense_21' , -10.0 , 10.0 , model.Dense_21)
@@ -174,12 +174,12 @@ model.Dense_22 = st.sidebar.number_input('Dense_22' , -10.0 , 10.0 , model.Dense
 model.Dense_31 = st.sidebar.number_input('Dense_31' , -10.0 , 10.0 , model.Dense_31)
 model.Dense_32 = st.sidebar.number_input('Dense_32' , -10.0 , 10.0 , model.Dense_32)
 
-st.sidebar.text("____")
+st.sidebar.text("_"*45)
 model.pair_data = st.sidebar.text_input('data' , "TOMO-PERP")
 model.timeframe = st.sidebar.selectbox('timeframe',('1h' , '5m' , '15m' , '1h', '4h' ,'1d'))
 model.start_test =  np.datetime64(st.sidebar.date_input('start_test', value= dt.datetime(2020, 7, 4, 0, 0)))
 
-st.sidebar.text("____")
+st.sidebar.text("_"*45)
 pyplot = model.chart
 pyplot = model.nav
 st.write(pyplot.iloc[: , :])
