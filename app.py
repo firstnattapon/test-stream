@@ -66,15 +66,20 @@ class Run_model :
         
         if self.input_1 == 'seed':
             prng_1 = SHA256(self.length_1)
-            dataset['input_1'] = dataset.OHLC4 * prng_1.random(1)
+            p_1 = prng_1.random(1)[0]
+            dataset['input_1'] = dataset.OHLC4 * p_1
+            st.write(p_1)
         else:
             dataset['input_1'] = dataset.ta(kind=self.input_1 , length= self.length_1 , scalar=1 , append=False)
             
         if self.input_2 == 'seed':
             prng_2 = SHA256(self.length_2)
-            dataset['input_2'] = dataset.OHLC4 * prng_2.random(1)
+            p_2 = prng_2.random(1)[0]
+            st.write(p_2)
+            dataset['input_2'] = dataset.OHLC4 * p_2
         else:
             dataset['input_2'] = dataset.ta(kind=self.input_2 , length= self.length_2 , scalar=1 , append=False)   
+            
         dataset = dataset.fillna(0)
         dataset['y_Reg'] = dataset['OHLC4'].shift(-1).fillna(dataset.OHLC4[-1])
         X = dataset.iloc[ : , 1:-1]  ;  y_Reg = dataset.iloc[ : ,[ -1]] 
