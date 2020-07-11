@@ -152,8 +152,8 @@ selectbox = lambda x, y : st.sidebar.selectbox('input_{}'.format(x),
     'kama', 'kurtosis', 'linear_decay', 'linreg', 'log_return', 'mad', 'median', 'mfi', 
     'midpoint', 'midprice', 'mom', 'natr', 'nvi', 'obv', 'ohlc4', 'percent_return', 'pvi', 
     'pvol', 'pvt', 'pwma', 'qstick', 'quantile', 'rma', 'roc', 'rsi', 'sinwma', 'skew', 'slope', 
-    'sma', 'stdev', 'swma', 't3', 'tema' ,'trima', 'trix', 'true_range', 'uo', 
-    'variance', 'vwap', 'vwma', 'willr', 'wma', 'zlma', 'zscore' , 'seed'))
+    'sma', 'stdev', 'swma', 'seed' , 't3', 'tema' ,'trima', 'trix', 'true_range', 'uo', 
+    'variance', 'vwap', 'vwma', 'willr', 'wma', 'zlma', 'zscore'))
 
 st.sidebar.text("_"*45)
 model.input_1 = selectbox(1 ,'sma')
