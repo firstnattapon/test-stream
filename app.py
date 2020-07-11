@@ -9,6 +9,7 @@ import streamlit as st
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
+from cryptorandom.cryptorandom import SHA256
 # sns.set_style("whitegrid")
 
 class Run_model :
@@ -62,8 +63,18 @@ class Run_model :
     def talib (self): # ตัวแปร
         dataset = self.dataset
         dataset.ta.ohlc4(append=True)
-        dataset['input_1'] = dataset.ta(kind=self.input_1 , length= self.length_1 , scalar=1 , append=False)
-        dataset['input_2'] = dataset.ta(kind=self.input_2 , length= self.length_2 , scalar=1 , append=False)
+        
+        if self.input_1 == 'seed':
+            prng_1 = SHA256(self.length_1)
+            dataset['input_1'] = dataset.ohlc4 * prng_1.random(1)
+        else:
+            dataset['input_1'] = dataset.ta(kind=self.input_1 , length= self.length_1 , scalar=1 , append=False)
+            
+        if self.input_2 == 'seed':
+            prng_2 = SHA256(self.length_2)
+            dataset['input_2'] = dataset.ohlc4 * prng_2.random(1)
+        else:
+            dataset['input_2'] = dataset.ta(kind=self.input_2 , length= self.length_2 , scalar=1 , append=False)   
         dataset = dataset.fillna(0)
         dataset['y_Reg'] = dataset['OHLC4'].shift(-1).fillna(dataset.OHLC4[-1])
         X = dataset.iloc[ : , 1:-1]  ;  y_Reg = dataset.iloc[ : ,[ -1]] 
@@ -142,7 +153,7 @@ selectbox = lambda x, y : st.sidebar.selectbox('input_{}'.format(x),
     'midpoint', 'midprice', 'mom', 'natr', 'nvi', 'obv', 'ohlc4', 'percent_return', 'pvi', 
     'pvol', 'pvt', 'pwma', 'qstick', 'quantile', 'rma', 'roc', 'rsi', 'sinwma', 'skew', 'slope', 
     'sma', 'stdev', 'swma', 't3', 'tema' ,'trima', 'trix', 'true_range', 'uo', 
-    'variance', 'vwap', 'vwma', 'willr', 'wma', 'zlma', 'zscore'))
+    'variance', 'vwap', 'vwma', 'willr', 'wma', 'zlma', 'zscore' , 'seed'))
 
 st.sidebar.text("_"*45)
 model.input_1 = selectbox(1 ,'sma')
