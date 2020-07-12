@@ -72,7 +72,8 @@ class Run_model :
         X = dataset.iloc[ : , 1:-1]  ;  y_Reg = dataset.iloc[ : ,[ -1]] 
         return X , y_Reg , dataset
         
-    def softmax(x):
+    def softmax(x1 , x2):
+        x = np.array([x1 ,x2])
         e_x     = np.exp(x - np.max(x))
         output  = e_x / e_x.sum()
         ax      =  np.argmax(output)
@@ -85,7 +86,7 @@ class Run_model :
         dataset['Dense_12']  =  dataset.apply((lambda x : max(0, ((self.W_121 * x.input_1)+(self.W_122 * x.input_2)+(self.W_123 * x.input_3)+ 0))) , axis=1)
         dataset['Dense_21']  =  dataset.apply((lambda x : max(0, ((self.W_211 * x.Dense_11)+(self.W_212 * x.Dense_12)+ 0))) , axis=1)
         dataset['Dense_22']  =  dataset.apply((lambda x : max(0, ((self.W_221 * x.Dense_11)+(self.W_222 * x.Dense_12)+0))) , axis=1)
-        dataset['Output']   =  dataset.apply((lambda x : self.softmax([x.Dense_21,x.Dense_22])) , axis=1)
+        dataset['Output']   =  dataset.apply((lambda x : self.softmax(x.Dense_21, x.Dense_22)) , axis=1)
         dataset['Predict']  =  dataset['Output'] == 0
         dataset = dataset.dropna()
         return dataset
