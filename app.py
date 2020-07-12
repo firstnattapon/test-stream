@@ -19,10 +19,10 @@ class Run_model :
         self.apiKey ="AtdG0K3k"
         self.secret ="lItUXWckP2PNN-uPnrP_h_0dsctCXdFVP9x73bwo3Nc"
         
-        self.W_111 = 0.00 ;self.W_112 = 0.00 ;self.W_113 = 0.00
-        self.W_121 = 0.00 ;self.W_122 = 0.00 ;self.W_123 = 0.00
-        self.W_211 = 0.00 ;self.W_212 = 0.00
-        self.W_221 = 0.00 ;self.W_222 = 0.00
+        self.W_111 = 0.00 ;self.W_112 = 0.00 #;self.W_113 = 0.00
+        self.W_121 = 0.00 ;self.W_122 = 0.00 #;self.W_123 = 0.00
+#         self.W_211 = 0.00 ;self.W_212 = 0.00
+#         self.W_221 = 0.00 ;self.W_222 = 0.00
         
         self.start_capital = 225.00
         self.sleep = 3
@@ -31,10 +31,10 @@ class Run_model :
         self.start_test = dt.datetime(2020, 7 , 4 , 0 , 0)
         self.length_1 = 20
         self.length_2 = 40
-        self.length_3 = 60
+#         self.length_3 = 60
         self.input_1  = 'rsi'
         self.input_2  = 'rsi'
-        self.input_3  = 'rsi'
+#         self.input_3  = 'rsi'
         
     @property
     def ex_api (self):
@@ -66,14 +66,14 @@ class Run_model :
         dataset.ta.ohlc4(append=True)
         dataset['input_1'] = dataset.ta(kind=self.input_1 , length= self.length_1 , scalar=1 , append=False)
         dataset['input_2'] = dataset.ta(kind=self.input_2 , length= self.length_2 , scalar=1 , append=False)   
-        dataset['input_3'] = dataset.ta(kind=self.input_3 , length= self.length_3 , scalar=1 , append=False)   
+#         dataset['input_3'] = dataset.ta(kind=self.input_3 , length= self.length_3 , scalar=1 , append=False)   
         dataset = dataset.fillna(0)
         dataset['y_Reg'] = dataset['OHLC4'].shift(-1).fillna(dataset.OHLC4[-1])
         X = dataset.iloc[ : , 1:-1]  ;  y_Reg = dataset.iloc[ : ,[ -1]] 
         return X , y_Reg , dataset
         
     def softmax(self , x):
-        xo = np.array([x.Dense_21 ,x.Dense_22])
+        xo = np.array([x.Dense_11 ,x.Dense_12])
         e_x     = np.exp(xo - np.max(xo))
         output  = e_x / e_x.sum()
         ax      =  np.argmax(output)
@@ -82,10 +82,10 @@ class Run_model :
     @property  
     def deep (self):
         _,_, dataset = self.talib 
-        dataset['Dense_11']  =  dataset.apply((lambda x : max(0, ((self.W_111 * x.input_1)+(self.W_112 * x.input_2)+(self.W_113 * x.input_3)+ 0))) , axis=1)
-        dataset['Dense_12']  =  dataset.apply((lambda x : max(0, ((self.W_121 * x.input_1)+(self.W_122 * x.input_2)+(self.W_123 * x.input_3)+ 0))) , axis=1)
-        dataset['Dense_21']  =  dataset.apply((lambda x : max(0, ((self.W_211 * x.Dense_11)+(self.W_212 * x.Dense_12)+ 0))) , axis=1)
-        dataset['Dense_22']  =  dataset.apply((lambda x : max(0, ((self.W_221 * x.Dense_11)+(self.W_222 * x.Dense_12)+0))) , axis=1)
+        dataset['Dense_11']  =  dataset.apply((lambda x : max(0, ((self.W_111 * x.input_1)+(self.W_112 * x.input_2 + 0))) , axis=1)
+        dataset['Dense_12']  =  dataset.apply((lambda x : max(0, ((self.W_121 * x.input_1)+(self.W_122 * x.input_2)+ 0))) , axis=1)
+#         dataset['Dense_21']  =  dataset.apply((lambda x : max(0, ((self.W_211 * x.Dense_11)+(self.W_212 * x.Dense_12)+ 0))) , axis=1)
+#         dataset['Dense_22']  =  dataset.apply((lambda x : max(0, ((self.W_221 * x.Dense_11)+(self.W_222 * x.Dense_12)+0))) , axis=1)
         dataset['Output']   =  dataset.apply((lambda x : self.softmax(x)) , axis=1)
         dataset['Predict']  =  dataset['Output'] == 1
         dataset = dataset.dropna()
@@ -159,12 +159,12 @@ selectbox = lambda x, y : st.sidebar.selectbox('input_{}'.format(x),
 st.sidebar.text("_"*45)
 model.input_1 = selectbox(1 ,'rsi')
 model.input_2 = selectbox(2 ,'rsi')
-model.input_3 = selectbox(3 ,'rsi')
+# model.input_3 = selectbox(3 ,'rsi')
 
 st.sidebar.text("_"*45)
 model.length_1 = st.sidebar.slider('length_1' , 2 , 500 , 20)
 model.length_2 = st.sidebar.slider('length_2' , 2 , 500 , 40)
-model.length_3 = st.sidebar.slider('length_3' , 2 , 500 , 60)
+# model.length_3 = st.sidebar.slider('length_3' , 2 , 500 , 60)
 
 st.sidebar.text("_"*45)
 model.W_111 = st.sidebar.number_input('W_111' , -10.0 , 10.0 , model.W_111)
