@@ -72,7 +72,7 @@ class Run_model :
         X = dataset.iloc[ : , 1:-1]  ;  y_Reg = dataset.iloc[ : ,[ -1]] 
         return X , y_Reg , dataset
         
-    def softmax(x):
+    def softmax(self , x):
         xo = np.array([x.Dense_21 ,x.Dense_22])
         e_x     = np.exp(xo - np.max(xo))
         output  = e_x / e_x.sum()
