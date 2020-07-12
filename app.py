@@ -9,7 +9,6 @@ import streamlit as st
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
-from cryptorandom.cryptorandom import SHA256
 # sns.set_style("whitegrid")
 
 class Run_model :
@@ -19,12 +18,12 @@ class Run_model :
         self.pair_trade = 'ETH-PERPETUAL'
         self.apiKey ="AtdG0K3k"
         self.secret ="lItUXWckP2PNN-uPnrP_h_0dsctCXdFVP9x73bwo3Nc"
-        self.Dense_11 = 0.01
-        self.Dense_12 = 0.02
-        self.Dense_21 = -0.01
-        self.Dense_22 = 0.03
-        self.Dense_31 = 0.01
-        self.Dense_32 = 0.01
+        
+        self.W_111 = 0.00 ;self.W_112 = 0.00 ;self.W_113 = 0.00
+        self.W_121 = 0.00 ;self.W_122 = 0.00 ;self.W_123 = 0.00
+        self.W_211 = 0.00 ;self.W_212 = 0.00
+        self.W_221 = 0.00 ;self.W_222 = 0.00
+        
         self.start_capital = 225.00
         self.sleep = 3
         self.timeframe = "1h"  
@@ -32,8 +31,10 @@ class Run_model :
         self.start_test = dt.datetime(2020, 7 , 4 , 0 , 0)
         self.length_1 = 20
         self.length_2 = 40
+        self.length_3 = 60
         self.input_1  = 'rsi'
         self.input_2  = 'rsi'
+        self.input_3  = 'rsi'
         
     @property
     def ex_api (self):
@@ -63,33 +64,29 @@ class Run_model :
     def talib (self): # ตัวแปร
         dataset = self.dataset
         dataset.ta.ohlc4(append=True)
-        
-        if self.input_1 == 'seed':
-            prng_1 = SHA256(self.length_1)
-            p_1 = prng_1.random(1)[0]
-            dataset['input_1'] = dataset.OHLC4.map(lambda x: x % p_1)
-        else:
-            dataset['input_1'] = dataset.ta(kind=self.input_1 , length= self.length_1 , scalar=1 , append=False)
-            
-        if self.input_2 == 'seed':
-            prng_2 = SHA256(self.length_2)
-            p_2 = prng_2.random(1)[0]
-            dataset['input_2'] = dataset.OHLC4.map(lambda x: x % p_2)
-        else:
-            dataset['input_2'] = dataset.ta(kind=self.input_2 , length= self.length_2 , scalar=1 , append=False)   
-            
+        dataset['input_1'] = dataset.ta(kind=self.input_1 , length= self.length_1 , scalar=1 , append=False)
+        dataset['input_2'] = dataset.ta(kind=self.input_2 , length= self.length_2 , scalar=1 , append=False)   
+        dataset['input_3'] = dataset.ta(kind=self.input_3 , length= self.length_3 , scalar=1 , append=False)   
         dataset = dataset.fillna(0)
         dataset['y_Reg'] = dataset['OHLC4'].shift(-1).fillna(dataset.OHLC4[-1])
         X = dataset.iloc[ : , 1:-1]  ;  y_Reg = dataset.iloc[ : ,[ -1]] 
         return X , y_Reg , dataset
         
+    def softmax(x):
+        e_x     = np.exp(x - np.max(x))
+        output  = e_x / e_x.sum()
+        ax      =  np.argmax(output)
+        return  ax
+        
     @property  
     def deep (self):
         _,_, dataset = self.talib 
-        dataset['Dense_1']  =  dataset.apply((lambda x :  max(0, ((self.Dense_11 * x.input_1)+(self.Dense_12  * x.input_2)+ 0))) , axis=1)
-        dataset['Dense_2']  =  dataset.apply((lambda x :  max(0, ((self.Dense_21 * x.input_1)+(self.Dense_22  * x.input_2)+ 0))) , axis=1)
-        dataset['Output']   =  dataset.apply((lambda x :  (((self.Dense_31) * x.Dense_1 ))+((self.Dense_32) * x.Dense_2 )+ 0 ) , axis=1)
-        dataset['Predict']  =  dataset.Output.shift(1) <  dataset.Output.shift(0)
+        dataset['Dense_11']  =  dataset.apply((lambda x : max(0, ((self.W_111 * x.input_1)+(self.W_112 * x.input_2)+(self.W_113 * x.input_3)+ 0))) , axis=1)
+        dataset['Dense_12']  =  dataset.apply((lambda x : max(0, ((self.W_121 * x.input_1)+(self.W_122 * x.input_2)+(self.W_123 * x.input_3)+ 0))) , axis=1)
+        dataset['Dense_21']  =  dataset.apply((lambda x : max(0, ((self.W_211 * x.Dense_11)+(self.W_212 * x.Dense_12)+ 0))) , axis=1)
+        dataset['Dense_22']  =  dataset.apply((lambda x : max(0, ((self.W_221 * x.Dense_11)+(self.W_222 * x.Dense_12)+0))) , axis=1)
+        dataset['Output']   =  dataset.apply((lambda x : softmax([x.Dense_21,x.Dense_22])) , axis=1)
+        dataset['Predict']  =  dataset['Output'] == 0
         dataset = dataset.dropna()
         return dataset
     
@@ -161,18 +158,24 @@ selectbox = lambda x, y : st.sidebar.selectbox('input_{}'.format(x),
 st.sidebar.text("_"*45)
 model.input_1 = selectbox(1 ,'rsi')
 model.input_2 = selectbox(2 ,'rsi')
+model.input_3 = selectbox(3 ,'rsi')
 
 st.sidebar.text("_"*45)
 model.length_1 = st.sidebar.slider('length_1' , 2 , 500 , 20)
 model.length_2 = st.sidebar.slider('length_2' , 2 , 500 , 40)
+model.length_3 = st.sidebar.slider('length_3' , 2 , 500 , 40)
 
 st.sidebar.text("_"*45)
-model.Dense_11 = st.sidebar.number_input('Dense_11' , -10.0 , 10.0 , model.Dense_11)
-model.Dense_12 = st.sidebar.number_input('Dense_12' , -10.0 , 10.0 , model.Dense_12)
-model.Dense_21 = st.sidebar.number_input('Dense_21' , -10.0 , 10.0 , model.Dense_21)
-model.Dense_22 = st.sidebar.number_input('Dense_22' , -10.0 , 10.0 , model.Dense_22)
-model.Dense_31 = st.sidebar.number_input('Dense_31' , -10.0 , 10.0 , model.Dense_31)
-model.Dense_32 = st.sidebar.number_input('Dense_32' , -10.0 , 10.0 , model.Dense_32)
+model.W_111 = st.sidebar.number_input('W_111' , -10.0 , 10.0 , model.W_111)
+model.W_112 = st.sidebar.number_input('W_112' , -10.0 , 10.0 , model.W_112)
+model.W_113 = st.sidebar.number_input('W_113' , -10.0 , 10.0 , model.W_113)
+model.W_121 = st.sidebar.number_input('W_121' , -10.0 , 10.0 , model.W_121)
+model.W_122 = st.sidebar.number_input('W_122' , -10.0 , 10.0 , model.W_122)
+model.W_123 = st.sidebar.number_input('W_123' , -10.0 , 10.0 , model.W_123)
+model.W_211 = st.sidebar.number_input('W_211' , -10.0 , 10.0 , model.W_211)
+model.W_212 = st.sidebar.number_input('W_212' , -10.0 , 10.0 , model.W_212)
+model.W_221 = st.sidebar.number_input('W_221' , -10.0 , 10.0 , model.W_221)
+model.W_222 = st.sidebar.number_input('W_222' , -10.0 , 10.0 , model.W_222)
 
 st.sidebar.text("_"*45)
 model.pair_data = st.sidebar.text_input('data' , "TOMO-PERP")
@@ -186,9 +189,3 @@ st.write(pyplot.iloc[: , :])
 
 st.text("")
 st.write('\n\nhttps://github.com/firstnattapon/test-stream/edit/master/app.py')
-st.text("Dense_11 : {}".format (0.03380605))
-st.text("Dense_12 : {}".format (-0.04777157))
-st.text("Dense_21 : {}".format (0.00379837))
-st.text("Dense_22 : {}".format (0.026092))
-st.text("Dense_31 : {}".format (-0.03202482))
-st.text("Dense_32 : {}".format (0.04132303))
