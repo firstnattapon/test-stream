@@ -82,7 +82,7 @@ class Run_model :
     @property  
     def deep (self):
         _,_, dataset = self.talib 
-        dataset['Dense_11']  =  dataset.apply((lambda x : max(0, ((self.W_111 * x.input_1)+(self.W_112 * x.input_2 + 0))) , axis=1)
+        dataset['Dense_11']  =  dataset.apply((lambda x : max(0, ((self.W_111 * x.input_1)+(self.W_112 * x.input_2) + 0))) , axis=1)
         dataset['Dense_12']  =  dataset.apply((lambda x : max(0, ((self.W_121 * x.input_1)+(self.W_122 * x.input_2)+ 0))) , axis=1)
 #         dataset['Dense_21']  =  dataset.apply((lambda x : max(0, ((self.W_211 * x.Dense_11)+(self.W_212 * x.Dense_12)+ 0))) , axis=1)
 #         dataset['Dense_22']  =  dataset.apply((lambda x : max(0, ((self.W_221 * x.Dense_11)+(self.W_222 * x.Dense_12)+0))) , axis=1)
