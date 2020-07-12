@@ -87,7 +87,7 @@ class Run_model :
         dataset['Dense_21']  =  dataset.apply((lambda x : max(0, ((self.W_211 * x.Dense_11)+(self.W_212 * x.Dense_12)+ 0))) , axis=1)
         dataset['Dense_22']  =  dataset.apply((lambda x : max(0, ((self.W_221 * x.Dense_11)+(self.W_222 * x.Dense_12)+0))) , axis=1)
         dataset['Output']   =  dataset.apply((lambda x : self.softmax(x)) , axis=1)
-        dataset['Predict']  =  dataset['Output'] == 0
+        dataset['Predict']  =  dataset['Output'] == 1
         dataset = dataset.dropna()
         return dataset
     
