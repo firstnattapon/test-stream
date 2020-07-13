@@ -11,6 +11,7 @@ import seaborn as sns
 import numpy as np
 from cryptorandom.cryptorandom import SHA256
 from scipy import special as s
+from sympy import nextprime
 # sns.set_style("whitegrid")
 
 class Run_model :
@@ -67,11 +68,17 @@ class Run_model :
         
         if self.input_1 == 'jv':
             dataset['input_1'] = dataset.OHLC4.map(lambda x : s.jv(np.log(self.length_1), x ))
+        elif self.input_1 == 'nextprime':
+            dataset['input_1'] = dataset.OHLC4.map(lambda x : nextprime(x , self.length_1))
         else:
             dataset['input_1'] = dataset.ta(kind=self.input_1 , length= self.length_1 , scalar=1 , append=False)
             
+        #______________
+            
         if self.input_2 == 'jv':
             dataset['input_2'] = dataset.OHLC4.map(lambda x : s.jv(np.log(self.length_2), x))
+        elif self.input_2 == 'nextprime':
+            dataset['input_1'] = dataset.OHLC4.map(lambda x : nextprime(x , self.length_2))
         else:
             dataset['input_2'] = dataset.ta(kind=self.input_2 , length= self.length_2 , scalar=1 , append=False)   
             
@@ -153,7 +160,7 @@ selectbox = lambda x, y : st.sidebar.selectbox('input_{}'.format(x),
     'midpoint', 'midprice', 'mom', 'natr', 'nvi', 'obv', 'ohlc4', 'percent_return', 'pvi', 
     'pvol', 'pvt', 'pwma', 'qstick', 'quantile', 'rma', 'roc', 'rsi', 'sinwma', 'skew', 'slope', 
     'sma', 'stdev', 'swma', 'jv' , 't3', 'tema' ,'trima', 'trix', 'true_range', 'uo', 
-    'variance', 'vwap', 'vwma', 'willr', 'wma', 'zlma', 'zscore'))
+    'variance', 'vwap', 'vwma', 'willr', 'wma', 'zlma', 'zscore' ,'nextprime'))
 
 st.sidebar.text("_"*45)
 model.input_1 = selectbox(1 ,'rsi')
