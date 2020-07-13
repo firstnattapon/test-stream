@@ -69,7 +69,7 @@ class Run_model :
         if self.input_1 == 'jv':
             dataset['input_1'] = dataset.OHLC4.map(lambda x : s.jv(np.log(self.length_1), x ))
         elif self.input_1 == 'nextprime':
-            dataset['input_1'] = dataset.OHLC4.map(lambda x : np.log(nextprime(x*100 , self.length_1)))
+            dataset['input_1'] = dataset.OHLC4.map(lambda x : nextprime(x*100 , self.length_1))
         else:
             dataset['input_1'] = dataset.ta(kind=self.input_1 , length= self.length_1 , scalar=1 , append=False)
             
@@ -78,7 +78,7 @@ class Run_model :
         if self.input_2 == 'jv':
             dataset['input_2'] = dataset.OHLC4.map(lambda x : s.jv(np.log(self.length_2), x))
         elif self.input_2 == 'nextprime':
-            dataset['input_2'] = dataset.OHLC4.map(lambda x : np.log(nextprime( x*100 , self.length_2)))
+            dataset['input_2'] = dataset.OHLC4.map(lambda x : nextprime( x*100 , self.length_2))
         else:
             dataset['input_2'] = dataset.ta(kind=self.input_2 , length= self.length_2 , scalar=1 , append=False)   
             
