@@ -32,7 +32,7 @@ class Run_model :
         self.timeframe = "1h"  
         self.limit = 500
         self.start_test = dt.datetime(2020, 7 , 4 , 0 , 0)
-        self.length_1 = 60
+        self.length_1 = 50
         self.length_2 = 50
         self.input_1  = 'jv'
         self.input_2  = 'rsi'
@@ -167,7 +167,7 @@ model.input_1 = selectbox(1 ,'jv')
 model.input_2 = selectbox(2 ,'rsi')
 
 st.sidebar.text("_"*45)
-model.length_1 = st.sidebar.slider('length_1' , 2 , 500 , 76)
+model.length_1 = st.sidebar.slider('length_1' , 2 , 500 , 50)
 model.length_2 = st.sidebar.slider('length_2' , 2 , 500 , 50)
 
 st.sidebar.text("_"*45)
