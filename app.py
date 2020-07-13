@@ -66,12 +66,12 @@ class Run_model :
         dataset.ta.ohlc4(append=True)
         
         if self.input_1 == 'seed':
-            dataset['input_1'] = dataset.OHLC4.map(lambda x : s.jv(np.log(self.length_1),np.log(x)))
+            dataset['input_1'] = dataset.OHLC4.map(lambda x : s.jv(np.log(self.length_1), x )
         else:
             dataset['input_1'] = dataset.ta(kind=self.input_1 , length= self.length_1 , scalar=1 , append=False)
             
         if self.input_2 == 'seed':
-            dataset['input_2'] = dataset.OHLC4.map(lambda x : s.jv(np.log(self.length_2),np.log(x)))
+            dataset['input_2'] = dataset.OHLC4.map(lambda x : s.jv(np.log(self.length_2),x))
         else:
             dataset['input_2'] = dataset.ta(kind=self.input_2 , length= self.length_2 , scalar=1 , append=False)   
             
