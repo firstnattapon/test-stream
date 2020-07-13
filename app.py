@@ -65,13 +65,13 @@ class Run_model :
         dataset = self.dataset
         dataset.ta.ohlc4(append=True)
         
-        if self.input_1 == 'seed':
+        if self.input_1 == 'jv':
             dataset['input_1'] = dataset.OHLC4.map(lambda x : s.jv(np.log(self.length_1), x ))
         else:
             dataset['input_1'] = dataset.ta(kind=self.input_1 , length= self.length_1 , scalar=1 , append=False)
             
-        if self.input_2 == 'seed':
-            dataset['input_2'] = dataset.OHLC4.map(lambda x : s.jv(np.log(self.length_2),x))
+        if self.input_2 == 'jv':
+            dataset['input_2'] = dataset.OHLC4.map(lambda x : s.jv(np.log(self.length_2), x))
         else:
             dataset['input_2'] = dataset.ta(kind=self.input_2 , length= self.length_2 , scalar=1 , append=False)   
             
@@ -152,7 +152,7 @@ selectbox = lambda x, y : st.sidebar.selectbox('input_{}'.format(x),
     'kama', 'kurtosis', 'linear_decay', 'linreg', 'log_return', 'mad', 'median', 'mfi', 
     'midpoint', 'midprice', 'mom', 'natr', 'nvi', 'obv', 'ohlc4', 'percent_return', 'pvi', 
     'pvol', 'pvt', 'pwma', 'qstick', 'quantile', 'rma', 'roc', 'rsi', 'sinwma', 'skew', 'slope', 
-    'sma', 'stdev', 'swma', 'seed' , 't3', 'tema' ,'trima', 'trix', 'true_range', 'uo', 
+    'sma', 'stdev', 'swma', 'jv' , 't3', 'tema' ,'trima', 'trix', 'true_range', 'uo', 
     'variance', 'vwap', 'vwma', 'willr', 'wma', 'zlma', 'zscore'))
 
 st.sidebar.text("_"*45)
