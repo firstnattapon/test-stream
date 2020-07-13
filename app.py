@@ -22,7 +22,7 @@ class Run_model :
         self.apiKey ="AtdG0K3k"
         self.secret ="lItUXWckP2PNN-uPnrP_h_0dsctCXdFVP9x73bwo3Nc"
         self.Dense_11 = 0.01
-        self.Dense_12 = 0.02
+        self.Dense_12 = 0.01
         self.Dense_21 = -0.01
         self.Dense_22 = 0.03
         self.Dense_31 = 0.01
@@ -32,9 +32,9 @@ class Run_model :
         self.timeframe = "1h"  
         self.limit = 500
         self.start_test = dt.datetime(2020, 7 , 4 , 0 , 0)
-        self.length_1 = 20
-        self.length_2 = 40
-        self.input_1  = 'rsi'
+        self.length_1 = 76
+        self.length_2 = 50
+        self.input_1  = 'jv'
         self.input_2  = 'rsi'
         
     @property
@@ -163,12 +163,12 @@ selectbox = lambda x, y : st.sidebar.selectbox('input_{}'.format(x),
     'variance', 'vwap', 'vwma', 'willr', 'wma', 'zlma', 'zscore' ,'nextprime'))
 
 st.sidebar.text("_"*45)
-model.input_1 = selectbox(1 ,'rsi')
+model.input_1 = selectbox(1 ,'jv')
 model.input_2 = selectbox(2 ,'rsi')
 
 st.sidebar.text("_"*45)
-model.length_1 = st.sidebar.slider('length_1' , 2 , 500 , 20)
-model.length_2 = st.sidebar.slider('length_2' , 2 , 500 , 40)
+model.length_1 = st.sidebar.slider('length_1' , 2 , 500 , 76)
+model.length_2 = st.sidebar.slider('length_2' , 2 , 500 , 50)
 
 st.sidebar.text("_"*45)
 model.Dense_11 = st.sidebar.number_input('Dense_11' , -10.0 , 10.0 , model.Dense_11)
@@ -190,11 +190,4 @@ st.write(pyplot.iloc[: , :])
 
 st.text("")
 st.write('\n\nhttps://github.com/firstnattapon/test-stream/edit/master/app.py')
-st.text("Dense_11 : {}".format (0.03380605))
-st.text("Dense_12 : {}".format (-0.04777157))
-st.text("Dense_21 : {}".format (0.00379837))
-st.text("Dense_22 : {}".format (0.026092))
-st.text("Dense_31 : {}".format (-0.03202482))
-st.text("Dense_32 : {}".format (0.04132303))
-
-                                                   
+                                
