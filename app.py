@@ -30,7 +30,7 @@ class Run_model :
         self.start_capital = 225.00
         self.sleep = 3
         self.timeframe = "1h"  
-        self.limit = 5000
+        self.limit = 500
         self.start_test = dt.datetime(2020, 7 , 4 , 0 , 0)
         self.length_1 = 80
         self.length_2 = 29
@@ -47,7 +47,6 @@ class Run_model :
         return exchange
     
     @property
-    @st.cache
     def dataset (self):
         self.exchange = ccxt.ftx({'apiKey': '' ,'secret': ''  , 'enableRateLimit': True }) 
         timeframe = self.timeframe 
@@ -103,12 +102,13 @@ class Run_model :
         dataset = self.deep
         dataset['buy'] =  dataset.apply(lambda x : np.where( x.Predict == True , x.OHLC4 , None) , axis=1)
         dataset['sell'] = dataset.apply(lambda x : np.where( x.Predict == False, x.OHLC4 , None) , axis=1)
-        plt.figure(figsize=(12,8))
-        plt.plot(dataset.OHLC4 , color='k' , alpha=0.20 )
-        plt.plot(dataset.buy , 'o',  color='g' , alpha=0.50 )
-        plt.plot(dataset.sell , 'o', color='r' , alpha=0.50)       
-        st.write('Predict:' , dataset.Predict[-1])
-        st.pyplot()
+        if st.checkbox('chart_plot'):
+            plt.figure(figsize=(12,8))
+            plt.plot(dataset.OHLC4 , color='k' , alpha=0.20 )
+            plt.plot(dataset.buy , 'o',  color='g' , alpha=0.50 )
+            plt.plot(dataset.sell , 'o', color='r' , alpha=0.50)       
+            st.write('Predict:' , dataset.Predict[-1])
+            st.pyplot()
 
     @property 
     def nav (self):
@@ -122,14 +122,14 @@ class Run_model :
         #__________
         nav_dataset['Max_Returns'] = np.where(nav_dataset['Predict'] == True  , abs(nav_dataset['Next_Returns'])  , abs(-nav_dataset['Next_Returns']))
         nav_dataset['CumulativeMax_Returns'] = np.cumsum(nav_dataset['Max_Returns'])
-
         nav_dataset = nav_dataset.iloc[: , 5:].drop(columns=['y_Reg'])
-        plt.figure(figsize=(12,8))
-        plt.plot(nav_dataset['Cumulative_Returns'], color='k',  alpha=0.60 )
-        plt.plot(nav_dataset['CumulativeMax_Returns'], color='g',  alpha=0.60 )
-        plt.plot(nav_dataset['CumulativeMarket_Returns'], color='r',  alpha=0.60 )
-        st.write('Score:' , round((nav_dataset.Cumulative_Returns[-2]) , 4 ))
-        st.pyplot()
+        if st.checkbox('nav_plot'):
+            plt.figure(figsize=(12,8))
+            plt.plot(nav_dataset['Cumulative_Returns'], color='k',  alpha=0.60 )
+            plt.plot(nav_dataset['CumulativeMax_Returns'], color='g',  alpha=0.60 )
+            plt.plot(nav_dataset['CumulativeMarket_Returns'], color='r',  alpha=0.60 )
+            st.write('Score:' , round((nav_dataset.Cumulative_Returns[-2]) , 4 ))
+            st.pyplot()
         nav_dataset = nav_dataset.dropna()
         return nav_dataset
     
