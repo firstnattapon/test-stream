@@ -116,9 +116,15 @@ class Run_model :
         nav_dataset['Next_Returns'] = nav_dataset['Next_Returns'].shift(-1)
         nav_dataset['Strategy_Returns'] = np.where(nav_dataset['Predict'] == True  , nav_dataset['Next_Returns']  , -nav_dataset['Next_Returns'] )
         nav_dataset['Cumulative_Returns'] = np.cumsum(nav_dataset['Strategy_Returns'])
+        #__________
+        nav_dataset['Max_Returns'] = np.where(nav_dataset['Predict'] == True  , abs(nav_dataset['Next_Returns'])  , abs(-nav_dataset['Next_Returns']))
+        nav_dataset['CumulativeMax_Returns'] = np.cumsum(nav_dataset['Max_Returns'])
+
         nav_dataset = nav_dataset.iloc[: , 5:].drop(columns=['y_Reg'])
         plt.figure(figsize=(12,8))
         plt.plot(nav_dataset['Cumulative_Returns'], color='k',  alpha=0.60 )
+        plt.plot(nav_dataset['CumulativeMax_Returns'], color='r',  alpha=0.60 )
+        
         st.write('Score:' , round((nav_dataset.Cumulative_Returns[-2]) , 4 ))
         st.pyplot()
         nav_dataset = nav_dataset.dropna()
