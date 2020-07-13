@@ -10,6 +10,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
 from cryptorandom.cryptorandom import SHA256
+from scipy import special as s
 # sns.set_style("whitegrid")
 
 class Run_model :
@@ -65,16 +66,12 @@ class Run_model :
         dataset.ta.ohlc4(append=True)
         
         if self.input_1 == 'seed':
-            prng_1 = SHA256(self.length_1)
-            p_1 = prng_1.random(1)[0]
-            dataset['input_1'] = dataset.OHLC4.map(lambda x: x % p_1)
+            dataset['input_1'] = dataset.OHLC4.map(lambda x : s.jv(np.log(self.length_1),np.log(x)))
         else:
             dataset['input_1'] = dataset.ta(kind=self.input_1 , length= self.length_1 , scalar=1 , append=False)
             
         if self.input_2 == 'seed':
-            prng_2 = SHA256(self.length_2)
-            p_2 = prng_2.random(1)[0]
-            dataset['input_2'] = dataset.OHLC4.map(lambda x: x % p_2)
+            dataset['input_2'] = dataset.OHLC4.map(lambda x : s.jv(np.log(self.length_2),np.log(x)))
         else:
             dataset['input_2'] = dataset.ta(kind=self.input_2 , length= self.length_2 , scalar=1 , append=False)   
             
