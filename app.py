@@ -172,7 +172,7 @@ selectbox = lambda x, y : st.sidebar.selectbox('input_{}'.format(x),
     'variance', 'vwap', 'vwma', 'willr', 'wma', 'zlma', 'zscore' ,'nextprime'))
 
 st.sidebar.text("_"*45)
-model.input_1 = selectbox(1 ,'jv')
+model.input_1 = selectbox(1 ,'variance')
 model.input_2 = selectbox(2 ,'rsi')
 
 st.sidebar.text("_"*45)
