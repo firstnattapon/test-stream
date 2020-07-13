@@ -195,8 +195,8 @@ model.start_test =  np.datetime64(st.sidebar.date_input('start_test', value= dt.
 st.sidebar.text("_"*45)
 pyplot = model.chart
 pyplot = model.nav
-st.write(pyplot.iloc[: , :])
-
+if st.checkbox('df_plot'):
+    st.write(pyplot.iloc[: , :])
 st.text("")
 st.write('\n\nhttps://github.com/firstnattapon/test-stream/edit/master/app.py')
                                 
