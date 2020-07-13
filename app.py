@@ -142,7 +142,7 @@ class Run_model :
                 latest_iteration.text(f'Progress {i+1}')
                 bar.progress(i + 1)
                 sleep(self.sleep)
-#____________________________________________________________________________     
+#____________________________________________________________________________  
 
 model =  Run_model()
 st.sidebar.header('(2020, 7 , 4) \n')
