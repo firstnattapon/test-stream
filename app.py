@@ -21,20 +21,20 @@ class Run_model :
         self.pair_trade = 'ETH-PERPETUAL'
         self.apiKey ="AtdG0K3k"
         self.secret ="lItUXWckP2PNN-uPnrP_h_0dsctCXdFVP9x73bwo3Nc"
-        self.Dense_11 = 0.02
-        self.Dense_12 = 0.01
-        self.Dense_21 = -0.01
-        self.Dense_22 = 0.02
-        self.Dense_31 = 0.01
-        self.Dense_32 = 0.01
+        self.Dense_11 = -0.09
+        self.Dense_12 = -0.07
+        self.Dense_21 =  0.02
+        self.Dense_22 =  0.02
+        self.Dense_31 = -0.02
+        self.Dense_32 =  0.01
         self.start_capital = 225.00
         self.sleep = 3
         self.timeframe = "1h"  
-        self.limit = 500
+        self.limit = 5000
         self.start_test = dt.datetime(2020, 7 , 4 , 0 , 0)
-        self.length_1 = 50
-        self.length_2 = 50
-        self.input_1  = 'jv'
+        self.length_1 = 80
+        self.length_2 = 29
+        self.input_1  = 'variance'
         self.input_2  = 'rsi'
         
     @property
@@ -45,8 +45,9 @@ class Run_model :
             exchange = ccxt.deribit({'apiKey': self.apiKey,'secret': self.secret,'enableRateLimit': True,
                             "urls": {"api": "https://test.deribit.com"}})
         return exchange
-        
+    
     @property
+    @st.cache
     def dataset (self):
         self.exchange = ccxt.ftx({'apiKey': '' ,'secret': ''  , 'enableRateLimit': True }) 
         timeframe = self.timeframe 
@@ -175,8 +176,8 @@ model.input_1 = selectbox(1 ,'jv')
 model.input_2 = selectbox(2 ,'rsi')
 
 st.sidebar.text("_"*45)
-model.length_1 = st.sidebar.slider('length_1' , 2 , 500 , 50)
-model.length_2 = st.sidebar.slider('length_2' , 2 , 500 , 50)
+model.length_1 = st.sidebar.slider('length_1' , 2 , 500 , 80)
+model.length_2 = st.sidebar.slider('length_2' , 2 , 500 , 29)
 
 st.sidebar.text("_"*45)
 model.Dense_11 = st.sidebar.number_input('Dense_11' , -10.0 , 10.0 , model.Dense_11)
