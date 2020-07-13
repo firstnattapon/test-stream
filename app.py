@@ -21,10 +21,10 @@ class Run_model :
         self.pair_trade = 'ETH-PERPETUAL'
         self.apiKey ="AtdG0K3k"
         self.secret ="lItUXWckP2PNN-uPnrP_h_0dsctCXdFVP9x73bwo3Nc"
-        self.Dense_11 = 0.01
+        self.Dense_11 = 0.02
         self.Dense_12 = 0.01
         self.Dense_21 = -0.01
-        self.Dense_22 = 0.03
+        self.Dense_22 = 0.02
         self.Dense_31 = 0.01
         self.Dense_32 = 0.01
         self.start_capital = 225.00
@@ -32,7 +32,7 @@ class Run_model :
         self.timeframe = "1h"  
         self.limit = 500
         self.start_test = dt.datetime(2020, 7 , 4 , 0 , 0)
-        self.length_1 = 76
+        self.length_1 = 60
         self.length_2 = 50
         self.input_1  = 'jv'
         self.input_2  = 'rsi'
