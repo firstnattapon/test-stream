@@ -1,6 +1,5 @@
 streamlit == 0.62.1
-https://files.pythonhosted.org/packages/c0/95/cb9820560a2713384ef49060b0087dfa2591c6db6f240215c2bce1f4211c/pandas-1.0.5-cp36-cp36m-manylinux1_x86_64.whl
-pandas-ta
+install pandas == 1.0.5
 ccxt == 1.30.53
 matplotlib == 3.2.2
 seaborn == 0.10.1
@@ -9,3 +8,5 @@ https://dl.google.com/coral/python/tflite_runtime-2.1.0.post1-cp36-cp36m-linux_x
 cryptorandom
 scipy
 sympy
+pandas-ta
+
