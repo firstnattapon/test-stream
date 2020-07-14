@@ -1,12 +1,11 @@
-pip == 20.2b1
-streamlit == 0.62.1
-pandas == 1.0.5
-ccxt == 1.30.53
-matplotlib == 3.2.2
-seaborn == 0.10.1
-numpy == 1.18.5
+streamlit 
+pandas  
+ccxt  
+matplotlib  
+seaborn 
+numpy 
 https://dl.google.com/coral/python/tflite_runtime-2.1.0.post1-cp36-cp36m-linux_x86_64.whl
 cryptorandom
 scipy
 sympy
-pandas-ta==0.1.39b
+pandas-ta == 0.1.39b
