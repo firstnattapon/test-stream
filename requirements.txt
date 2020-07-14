@@ -1,6 +1,6 @@
 streamlit == 0.62.1
-pandas == 1.0.4
-pandas-ta == 0.1.66b
+pandas == 1.0.5
+https://files.pythonhosted.org/packages/12/ba/ac7a51be39052bebec8fd7bb4c4fe849c346e98d8800e89a1d08bb95ea94/pandas_ta-0.1.66b.tar.gz
 ccxt == 1.30.53
 matplotlib == 3.2.2
 seaborn == 0.10.1
