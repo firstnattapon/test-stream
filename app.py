@@ -180,8 +180,8 @@ model.input_1 = selectbox(1 ,'slope')
 model.input_2 = selectbox(2 ,'ad')
 
 st.sidebar.text("_"*45)
-model.length_1 = st.sidebar.slider('length_1' , 2 , 500 , 50)
-model.length_2 = st.sidebar.slider('length_2' , 2 , 500 , 1)
+model.length_1 = st.sidebar.slider('length_1' , 1 , 500 , 50)
+model.length_2 = st.sidebar.slider('length_2' , 1 , 500 , 1)
 
 st.sidebar.text("_"*45)
 model.W_11 = st.sidebar.number_input('W_11' , -10.0 , 10.0 , model.W_11)
