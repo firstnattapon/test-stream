@@ -21,15 +21,15 @@ class Run_model :
         self.pair_trade = 'TOMO-PERPETUAL'
         self.apiKey ="AtdG0K3k"
         self.secret ="lItUXWckP2PNN-uPnrP_h_0dsctCXdFVP9x73bwo3Nc"
-        self.W_11 = -0.01505379
-        self.W_12 = -0.00130575
-        self.W_21 =  0.00302326
-        self.W_22 =  0.02617892
-        self.W_31 = -0.03784165
-        self.W_32 =  0.00646918
-        self.W_41 =  0.4325013 
-        self.W_42 = -0.27094534
-        self.W_43 =  1.0962713
+        self.W_11 =  0.04526792
+        self.W_12 =  0.04520687
+        self.W_21 = -0.05681561
+        self.W_22 =  0.02849582
+        self.W_31 = -0.06601462
+        self.W_32 = -0.00468389
+        self.W_41 =  0.70450073
+        self.W_42 = -1.1176215
+        self.W_43 = -0.07922293
         self.start_capital = 225.00
         self.sleep = 3
         self.timeframe = "1h"  
@@ -94,10 +94,10 @@ class Run_model :
     @property  
     def deep (self):
         _,_, dataset = self.talib 
-        dataset['Dense_1']  = dataset.apply((lambda x :  max(0, ((self.W_11 * x.input_1)+(self.W_12  * x.input_2)+ -0.03362045))) , axis=1)
-        dataset['Dense_2']  = dataset.apply((lambda x :  max(0, ((self.W_21 * x.input_1)+(self.W_22  * x.input_2)+  0.01533893))) , axis=1)
-        dataset['Dense_3']  = dataset.apply((lambda x :  max(0, ((self.W_31 * x.input_1)+(self.W_32  * x.input_2)+ -0.03311799))) , axis=1)
-        dataset['Output']   =  dataset.apply((lambda x : (((self.W_41) * x.Dense_1))+((self.W_42) * x.Dense_2)+((self.W_43)* x.Dense_3) + -0.04521269) , axis=1)
+        dataset['Dense_1']  = dataset.apply((lambda x :  max(0, ((self.W_11 * x.input_1)+(self.W_12  * x.input_2)+  0.01409947))) , axis=1)
+        dataset['Dense_2']  = dataset.apply((lambda x :  max(0, ((self.W_21 * x.input_1)+(self.W_22  * x.input_2)+ -0.0142128))) , axis=1)
+        dataset['Dense_3']  = dataset.apply((lambda x :  max(0, ((self.W_31 * x.input_1)+(self.W_32  * x.input_2)+ -0.02582533))) , axis=1)
+        dataset['Output']   =  dataset.apply((lambda x : (((self.W_41) * x.Dense_1))+((self.W_42) * x.Dense_2)+((self.W_43)* x.Dense_3) + 0.02244966) , axis=1)
         dataset['Predict']  =  dataset.Output.shift(1) <  dataset.Output.shift(0)
         dataset = dataset.dropna()
         return dataset
