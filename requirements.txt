@@ -9,4 +9,4 @@ cryptorandom
 scipy
 sympy
 pandas-ta == 0.1.39b
-pandas-ta == 0.1.66b
+-e pandas-ta
