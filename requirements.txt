@@ -1,7 +1,7 @@
 streamlit == 0.62.1
 pandas == 1.0.5
 ccxt == 1.30.53
--e pandas_ta
+pandas-ta==0.1.66b
 matplotlib == 3.2.2
 seaborn == 0.10.1
 numpy == 1.18.5
