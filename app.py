@@ -18,24 +18,27 @@ class Run_model :
     def __init__(self , ex='deribit'):
         self.ex = ex
         self.pair_data = "TOMO-PERP"
-        self.pair_trade = 'ETH-PERPETUAL'
+        self.pair_trade = 'TOMO-PERPETUAL'
         self.apiKey ="AtdG0K3k"
         self.secret ="lItUXWckP2PNN-uPnrP_h_0dsctCXdFVP9x73bwo3Nc"
-        self.Dense_11 = -0.09
-        self.Dense_12 = -0.07
-        self.Dense_21 =  0.02
-        self.Dense_22 =  0.02
-        self.Dense_31 = -0.02
-        self.Dense_32 =  0.01
+        self.W_11 = -0.01505379
+        self.W_12 = -0.00130575
+        self.W_21 =  0.00302326
+        self.W_22 =  0.02617892
+        self.W_31 = -0.03784165
+        self.W_32 =  0.00646918
+        self.W_41 =  0.4325013 
+        self.W_42 = -0.27094534
+        self.W_43 =  1.0962713
         self.start_capital = 225.00
         self.sleep = 3
         self.timeframe = "1h"  
         self.limit = 500
         self.start_test = dt.datetime(2020, 7 , 4 , 0 , 0)
-        self.length_1 = 80
-        self.length_2 = 29
-        self.input_1  = 'variance'
-        self.input_2  = 'rsi'
+        self.length_1 = 50
+        self.length_2 = 1
+        self.input_1  = 'slope'
+        self.input_2  = 'ad'
         
     @property
     def ex_api (self):
@@ -90,9 +93,10 @@ class Run_model :
     @property  
     def deep (self):
         _,_, dataset = self.talib 
-        dataset['Dense_1']  =  dataset.apply((lambda x :  max(0, ((self.Dense_11 * x.input_1)+(self.Dense_12  * x.input_2)+ 0))) , axis=1)
-        dataset['Dense_2']  =  dataset.apply((lambda x :  max(0, ((self.Dense_21 * x.input_1)+(self.Dense_22  * x.input_2)+ 0))) , axis=1)
-        dataset['Output']   =  dataset.apply((lambda x :  (((self.Dense_31) * x.Dense_1 ))+((self.Dense_32) * x.Dense_2 )+ 0 ) , axis=1)
+        dataset['Dense_1']  = dataset.apply((lambda x :  max(0, ((self.W_11 * x.input_1)+(self.W_12  * x.input_2)+ -0.03362045))) , axis=1)
+        dataset['Dense_2']  = dataset.apply((lambda x :  max(0, ((self.W_21 * x.input_1)+(self.W_22  * x.input_2)+  0.01533893))) , axis=1)
+        dataset['Dense_3']  = dataset.apply((lambda x :  max(0, ((self.W_31 * x.input_1)+(self.W_32  * x.input_2)+ -0.03311799))) , axis=1)
+        dataset['Output']   =  dataset.apply((lambda x : (((self.W_41) * x.Dense_1))+((self.W_42) * x.Dense_2)+((self.W_43)* x.Dense_3) + -0.04521269) , axis=1)
         dataset['Predict']  =  dataset.Output.shift(1) <  dataset.Output.shift(0)
         dataset = dataset.dropna()
         return dataset
@@ -172,20 +176,23 @@ selectbox = lambda x, y : st.sidebar.selectbox('input_{}'.format(x),
     'variance', 'vwap', 'vwma', 'willr', 'wma', 'zlma', 'zscore' ,'nextprime'))
 
 st.sidebar.text("_"*45)
-model.input_1 = selectbox(1 ,'variance')
-model.input_2 = selectbox(2 ,'rsi')
+model.input_1 = selectbox(1 ,'slope')
+model.input_2 = selectbox(2 ,'ad')
 
 st.sidebar.text("_"*45)
-model.length_1 = st.sidebar.slider('length_1' , 2 , 500 , 80)
-model.length_2 = st.sidebar.slider('length_2' , 2 , 500 , 29)
+model.length_1 = st.sidebar.slider('length_1' , 2 , 500 , 50)
+model.length_2 = st.sidebar.slider('length_2' , 2 , 500 , 1)
 
 st.sidebar.text("_"*45)
-model.Dense_11 = st.sidebar.number_input('Dense_11' , -10.0 , 10.0 , model.Dense_11)
-model.Dense_12 = st.sidebar.number_input('Dense_12' , -10.0 , 10.0 , model.Dense_12)
-model.Dense_21 = st.sidebar.number_input('Dense_21' , -10.0 , 10.0 , model.Dense_21)
-model.Dense_22 = st.sidebar.number_input('Dense_22' , -10.0 , 10.0 , model.Dense_22)
-model.Dense_31 = st.sidebar.number_input('Dense_31' , -10.0 , 10.0 , model.Dense_31)
-model.Dense_32 = st.sidebar.number_input('Dense_32' , -10.0 , 10.0 , model.Dense_32)
+model.W_11 = st.sidebar.number_input('W_11' , -10.0 , 10.0 , model.W_11)
+model.W_12 = st.sidebar.number_input('W_12' , -10.0 , 10.0 , model.W_12)
+model.W_21 = st.sidebar.number_input('W_21' , -10.0 , 10.0 , model.W_21)
+model.W_22 = st.sidebar.number_input('W_22' , -10.0 , 10.0 , model.W_22)
+model.W_31 = st.sidebar.number_input('W_31' , -10.0 , 10.0 , model.W_31)
+model.W_32 = st.sidebar.number_input('W_32' , -10.0 , 10.0 , model.W_32)
+model.W_41 = st.sidebar.number_input('W_41' , -10.0 , 10.0 , model.W_41)
+model.W_42 = st.sidebar.number_input('W_42' , -10.0 , 10.0 , model.W_42)
+model.W_43 = st.sidebar.number_input('W_43' , -10.0 , 10.0 , model.W_43)
 
 st.sidebar.text("_"*45)
 model.pair_data = st.sidebar.text_input('data' , "TOMO-PERP")
