@@ -68,6 +68,7 @@ class Run_model :
     def talib (self): # ตัวแปร
         dataset = self.dataset
         dataset.ta.ohlc4(append=True)
+        dataset.OHLC4 = np.log10(dataset.OHLC4)
         
         if self.input_1 == 'jv':
             dataset['input_1'] = dataset.OHLC4.map(lambda x : s.jv(np.log(self.length_1) , x ))
