@@ -8,5 +8,5 @@ https://dl.google.com/coral/python/tflite_runtime-2.1.0.post1-cp36-cp36m-linux_x
 cryptorandom
 scipy
 sympy
-pandas-ta==0.1.39b
---upgrade = pandas-ta
+pandas-ta == 0.1.39b
+pandas-ta == 0.1.66b
