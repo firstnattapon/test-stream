@@ -21,24 +21,24 @@ class Run_model :
         self.pair_trade = 'TOMO-PERPETUAL'
         self.apiKey ="AtdG0K3k"
         self.secret ="lItUXWckP2PNN-uPnrP_h_0dsctCXdFVP9x73bwo3Nc"
-        self.W_11 =  0.04526792
-        self.W_12 =  0.04520687
-        self.W_21 = -0.05681561
-        self.W_22 =  0.02849582
-        self.W_31 = -0.06601462
-        self.W_32 = -0.00468389
-        self.W_41 =  0.70450073
-        self.W_42 = -1.1176215
-        self.W_43 = -0.07922293
+        self.W_11 =  -0.0269416
+        self.W_12 =  -0.02510289
+        self.W_21 =   0.1780024
+        self.W_22 =   0.16893668
+        self.W_31 =  -0.04359554
+        self.W_32 =   0.01950381
+        self.W_41 =   0.8075782
+        self.W_42 =   1.0319991
+        self.W_43 =  -0.1520603
         self.start_capital = 225.00
         self.sleep = 3
         self.timeframe = "1h"  
         self.limit = 500
         self.start_test = dt.datetime(2020, 7 , 4 , 0 , 0)
-        self.length_1 = 50
-        self.length_2 = 1
-        self.input_1  = 'slope'
-        self.input_2  = 'ad'
+        self.length_1 = 237
+        self.length_2 = 86
+        self.input_1  = 'rma'
+        self.input_2  = 'rsi'
         
     @property
     def ex_api (self):
@@ -93,10 +93,10 @@ class Run_model :
     @property  
     def deep (self):
         _,_, dataset = self.talib 
-        dataset['Dense_1']  = dataset.apply((lambda x :  max(0, ((self.W_11 * x.input_1)+(self.W_12  * x.input_2)+  0.01409947))) , axis=1)
-        dataset['Dense_2']  = dataset.apply((lambda x :  max(0, ((self.W_21 * x.input_1)+(self.W_22  * x.input_2)+ -0.0142128))) , axis=1)
-        dataset['Dense_3']  = dataset.apply((lambda x :  max(0, ((self.W_31 * x.input_1)+(self.W_32  * x.input_2)+ -0.02582533))) , axis=1)
-        dataset['Output']   =  dataset.apply((lambda x : (((self.W_41) * x.Dense_1))+((self.W_42) * x.Dense_2)+((self.W_43)* x.Dense_3) + 0.02244966) , axis=1)
+        dataset['Dense_1']  = dataset.apply((lambda x :  max(0, ((self.W_11 * x.input_1)+(self.W_12  * x.input_2)+  0.00000000))) , axis=1)
+        dataset['Dense_2']  = dataset.apply((lambda x :  max(0, ((self.W_21 * x.input_1)+(self.W_22  * x.input_2)+  0.16121943))) , axis=1)
+        dataset['Dense_3']  = dataset.apply((lambda x :  max(0, ((self.W_31 * x.input_1)+(self.W_32  * x.input_2)+ -0.02214672))) , axis=1)
+        dataset['Output']   =  dataset.apply((lambda x : (((self.W_41) * x.Dense_1))+((self.W_42) * x.Dense_2)+((self.W_43)* x.Dense_3) + 0.15152684) , axis=1)
         dataset['Predict']  =  dataset.Output.shift(1) <  dataset.Output.shift(0)
         dataset = dataset.dropna()
         return dataset
@@ -176,12 +176,12 @@ selectbox = lambda x, y : st.sidebar.selectbox('input_{}'.format(x),
     'variance', 'vwap', 'vwma', 'willr', 'wma', 'zlma', 'zscore' ,'nextprime'))
 
 st.sidebar.text("_"*45)
-model.input_1 = selectbox(1 ,'slope')
-model.input_2 = selectbox(2 ,'ad')
+model.input_1 = selectbox(1 ,'rma')
+model.input_2 = selectbox(2 ,'rsi')
 
 st.sidebar.text("_"*45)
-model.length_1 = st.sidebar.slider('length_1' , 1 , 500 , 50)
-model.length_2 = st.sidebar.slider('length_2' , 1 , 500 , 1)
+model.length_1 = st.sidebar.slider('length_1' , 1 , 500 , 237)
+model.length_2 = st.sidebar.slider('length_2' , 1 , 500 , 86)
 
 st.sidebar.text("_"*45)
 model.W_11 = st.sidebar.number_input('W_11' , -10.0 , 10.0 , model.W_11)
