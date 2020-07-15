@@ -48,7 +48,7 @@ class Run_model :
             exchange = ccxt.deribit({'apiKey': self.apiKey,'secret': self.secret,'enableRateLimit': True,
                             "urls": {"api": "https://test.deribit.com"}})
         return exchange
-    
+
     @property
     def dataset (self):
         self.exchange = ccxt.ftx({'apiKey': '' ,'secret': ''  , 'enableRateLimit': True }) 
@@ -134,7 +134,7 @@ class Run_model :
             plt.plot(nav_dataset['CumulativeMarket_Returns'], color='r',  alpha=0.60 )
             st.write('Score:' , round((nav_dataset.Cumulative_Returns[-2]) , 4 ))
             st.pyplot()
-        nav_dataset = nav_dataset.dropna()
+#         nav_dataset = nav_dataset.dropna()
         return nav_dataset
     
     @property 
