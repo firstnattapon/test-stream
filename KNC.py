@@ -23,21 +23,7 @@ class Run_model :
         self.apiKey ="AtdG0K3k"
         self.secret ="lItUXWckP2PNN-uPnrP_h_0dsctCXdFVP9x73bwo3Nc"
         self.swish  = lambda  x :  x/(1-np.exp(-x))
-        
-        
-[array([[ 0.4444199 ,  0.48298007, -0.33481032],
-        [ 0.42422637,  0.37505403, -0.2770919 ]], dtype=float32),
- array([0.18331206, 0.18689555, 0.06545988], dtype=float32),
- 
- array([[ 0.4583165 , -0.2784405 ],
-        [ 0.48430347, -0.27827096],
-        [-0.37594795,  0.23938057]], dtype=float32),
- array([ 0.13293514, -0.08336715], dtype=float32),
- array([[ 0.6461407],
-        [-1.4223717]], dtype=float32),
- array([0.10602588], dtype=float32)]
-        
-        
+       
         self.W_111 =   0.4444199
         self.W_112 =   0.42422637
         self.B_111 =   0.18331206
