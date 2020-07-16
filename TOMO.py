@@ -53,7 +53,7 @@ class Run_model :
         self.start_capital = 225.00
         self.sleep = 3
         self.timeframe = "1h"  
-        self.limit = 5000
+        self.limit = 500
         self.start_test = dt.datetime(2020, 7 , 4 , 0 , 0)
         self.length_1 = 489
         self.length_2 = 121
