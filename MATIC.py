@@ -90,7 +90,7 @@ class Run_model :
         def  SHA(x) :
             v =  SHA256(x) ;v = v.random(self.length_1) ;v = v[- (np.random.randint(0 , len(v) ,1))[0]]
             return v
-
+        #_____________________________________________________________________________
         if self.input_1 == 'jv':
             dataset['input_1'] = dataset.OHLC4.map(lambda x : s.jv(np.log(self.length_1) , x ))
         elif self.input_1 == 'seed': 
