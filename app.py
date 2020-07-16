@@ -12,6 +12,7 @@ import numpy as np
 from cryptorandom.cryptorandom import SHA256
 from scipy import special as s
 from sympy import nextprime
+from sklearn.preprocessing import MinMaxScaler
 # sns.set_style("whitegrid")
 
 class Run_model :
