@@ -18,47 +18,61 @@ from sklearn.preprocessing import MinMaxScaler
 class Run_model :
     def __init__(self , ex='deribit'):
         self.ex = ex
-        self.pair_data = "TOMO-PERP"
-        self.pair_trade = 'TOMO-PERPETUAL'
+        self.pair_data = "KNC-PERP"
+        self.pair_trade = 'KNC-PERPETUAL'
         self.apiKey ="AtdG0K3k"
         self.secret ="lItUXWckP2PNN-uPnrP_h_0dsctCXdFVP9x73bwo3Nc"
         self.swish  = lambda  x :  x/(1-np.exp(-x))
         
-        self.W_111 =  -0.32599896
-        self.W_112 =  -0.4694649
-        self.B_111 =   0.04066495
         
-        self.W_121 =  -0.38749605
-        self.W_122 =  -0.48529604
-        self.B_121 =   0.06805305
+[array([[ 0.4444199 ,  0.48298007, -0.33481032],
+        [ 0.42422637,  0.37505403, -0.2770919 ]], dtype=float32),
+ array([0.18331206, 0.18689555, 0.06545988], dtype=float32),
+ 
+ array([[ 0.4583165 , -0.2784405 ],
+        [ 0.48430347, -0.27827096],
+        [-0.37594795,  0.23938057]], dtype=float32),
+ array([ 0.13293514, -0.08336715], dtype=float32),
+ array([[ 0.6461407],
+        [-1.4223717]], dtype=float32),
+ array([0.10602588], dtype=float32)]
         
-        self.W_131 =  -0.3519803
-        self.W_132 =  -0.45930058
-        self.B_131 =   0.04629803
         
-        self.W_211 =  -0.47773185
-        self.W_212 =  -0.47212452
-        self.W_213 =  -0.4639787
-        self.B_211 =   0.14417522
+        self.W_111 =   0.4444199
+        self.W_112 =   0.42422637
+        self.B_111 =   0.18331206
         
-        self.W_221 =  -0.43355095
-        self.W_222 =  -0.3907271
-        self.W_223 =  -0.43036905
-        self.B_221 =   0.13449003
+        self.W_121 =   0.48298007
+        self.W_122 =  -0.37505403
+        self.B_121 =   0.18689555
         
-        self.W_311 =   0.70195895
-        self.W_312 =   1.5475612
-        self.B_311 =   0.11495861
+        self.W_131 =  -0.33481032
+        self.W_132 =  -0.2770919
+        self.B_131 =   0.06545988
+        
+        self.W_211 =   0.4583165
+        self.W_212 =   0.48430347
+        self.W_213 =  -0.37594795
+        self.B_211 =   0.13293514
+        
+        self.W_221 =  -0.2784405
+        self.W_222 =  -0.27827096
+        self.W_223 =  -0.23938057
+        self.B_221 =  -0.08336715
+        
+        self.W_311 =   0.6461407
+        self.W_312 =  -1.4223717
+        self.B_311 =   0.10602588
 
         self.start_capital = 225.00
         self.sleep = 3
         self.timeframe = "1h"  
         self.limit = 500
         self.start_test = dt.datetime(2020, 7 , 4 , 0 , 0)
-        self.length_1 = 489
-        self.length_2 = 121
-        self.input_1  = 'obv'
-        self.input_2  = 'ad'
+        self.length_1 = 881
+        self.length_2 = 948
+        self.input_1  = 'pvt'
+        self.input_2  = 'rsi'
         
     @property
     def ex_api (self):
@@ -214,12 +228,12 @@ selectbox = lambda x, y : st.sidebar.selectbox('input_{}'.format(x),
         'vortex','vp','vwap','vwma','willr','wma','zlma','zscore' ,'jv','seed','nextprime'))
 
 st.sidebar.text("_"*45)
-model.input_1 = selectbox(1 ,'obv')
-model.input_2 = selectbox(2 ,'ad')
+model.input_1 = selectbox(1 ,'pvt')
+model.input_2 = selectbox(2 ,'rsi')
 
 st.sidebar.text("_"*45)
-model.length_1 = st.sidebar.slider('length_1' , 1 , 500 , 489)
-model.length_2 = st.sidebar.slider('length_2' , 1 , 500 , 121)
+model.length_1 = st.sidebar.slider('length_1' , 1 , 500 , 881)
+model.length_2 = st.sidebar.slider('length_2' , 1 , 500 , 948)
 
 st.sidebar.text("_"*45)
 model.W_111 = st.sidebar.number_input('W_111' , -10.0 , 10.0 , model.W_111)
@@ -238,7 +252,7 @@ model.W_311 = st.sidebar.number_input('W_311' , -10.0 , 10.0 , model.W_311)
 model.W_312 = st.sidebar.number_input('W_312' , -10.0 , 10.0 , model.W_312)
 
 st.sidebar.text("_"*45)
-model.pair_data = st.sidebar.text_input('data' , "TOMO-PERP")
+model.pair_data = st.sidebar.text_input('data' , "KNC-PERP")
 model.timeframe = st.sidebar.selectbox('timeframe',('1h' , '5m' , '15m' , '1h', '4h' ,'1d'))
 model.start_test =  np.datetime64(st.sidebar.date_input('start_test', value= dt.datetime(2020, 7, 4, 0, 0)))
 
