@@ -22,8 +22,7 @@ class Run_model :
         self.pair_trade = 'MATIC-PERPETUAL'
         self.apiKey ="AtdG0K3k"
         self.secret ="lItUXWckP2PNN-uPnrP_h_0dsctCXdFVP9x73bwo3Nc"
-        self.swish  = lambda  x :  x/(1-np.exp(-x))
-       
+        self.swish  = lambda  x : s.expit(x)*x
         self.W_111 =    0.4317418
         self.W_112 =   -0.17524958
         self.B_111 =   -0.16386631
@@ -121,18 +120,12 @@ class Run_model :
     @property  
     def deep (self):
         _ , _ , dataset = self.talib 
-        dataset['Dense_11']  = dataset.apply((lambda x : self.swish(((self.W_111 * x.input_1)+(self.W_112 * x.input_2)
-                                                                  +  self.B_111 ))) , axis=1)     
-        dataset['Dense_12']  = dataset.apply((lambda x : self.swish(((self.W_121 * x.input_1)+(self.W_122 * x.input_2)
-                                                                  +  self.B_121 ))) , axis=1)
-        dataset['Dense_13']  = dataset.apply((lambda x : self.swish(((self.W_131 * x.input_1)+(self.W_132 * x.input_2)
-                                                                  +  self.B_131 ))) , axis=1)
-        dataset['Dense_21']  = dataset.apply((lambda x : self.swish(((self.W_211 * x.Dense_11)+(self.W_212 * x.Dense_12)+(self.W_213 * x.Dense_13)
-                                                                  +  self.B_211 ))), axis=1)
-        dataset['Dense_22']  = dataset.apply((lambda x : self.swish(((self.W_221 * x.Dense_11)+(self.W_222 * x.Dense_12)+(self.W_223 * x.Dense_13)
-                                                                  +  self.B_221 ))), axis=1)  
-        dataset['Output']   =  dataset.apply((lambda x : (((self.W_311) * x.Dense_21))+((self.W_312) * x.Dense_22)
-                                                                  +  self.B_311 ) , axis=1)
+        dataset['Dense_11']  = dataset.apply((lambda x : self.swish(((self.W_111 * x.input_1) + (self.W_112 * x.input_2) +  self.B_111 ))) , axis=1)     
+        dataset['Dense_12']  = dataset.apply((lambda x : self.swish(((self.W_121 * x.input_1) + (self.W_122 * x.input_2) +  self.B_121 ))) , axis=1)
+        dataset['Dense_13']  = dataset.apply((lambda x : self.swish(((self.W_131 * x.input_1) + (self.W_132 * x.input_2) +  self.B_131 ))) , axis=1)
+        dataset['Dense_21']  = dataset.apply((lambda x : self.swish(((self.W_211 * x.Dense_11)+(self.W_212 * x.Dense_12)+(self.W_213 * x.Dense_13) +  self.B_211 ))), axis=1)
+        dataset['Dense_22']  = dataset.apply((lambda x : self.swish(((self.W_221 * x.Dense_11)+(self.W_222 * x.Dense_12)+(self.W_223 * x.Dense_13) +  self.B_221 ))), axis=1)  
+        dataset['Output']   =  dataset.apply((lambda x : (((self.W_311) * x.Dense_21))+((self.W_312) * x.Dense_22) +  self.B_311 ) , axis=1)
         dataset['Predict']  =  dataset.Output.shift(1) <  dataset.Output.shift(0)
         dataset = dataset.dropna()
         return dataset
