@@ -1,1 +1,1 @@
-﻿web: sh setup.sh && streamlit run KNC.py
+﻿web: sh setup.sh && streamlit run MATIC.py
