@@ -9,3 +9,4 @@ cryptorandom
 scipy
 sympy
 pandas-ta == 0.1.39b
+pip install scikit-learn
