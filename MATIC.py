@@ -207,12 +207,12 @@ selectbox = lambda x, y : st.sidebar.selectbox('input_{}'.format(x),
         'vortex','vp','vwap','vwma','willr','wma','zlma','zscore' ,'jv','seed','nextprime'))
 
 st.sidebar.text("_"*45)
-model.input_1 = selectbox(1 ,'decreasing')
-model.input_2 = selectbox(2 ,'cmo')
+model.input_1 = selectbox(1 , model.input_1)
+model.input_2 = selectbox(2 , model.input_2)
 
 st.sidebar.text("_"*45)
-model.length_1 = st.sidebar.slider('length_1' , 1 , 500 , 82)
-model.length_2 = st.sidebar.slider('length_2' , 1 , 500 , 41)
+model.length_1 = st.sidebar.slider('length_1' , 1 , 500 , model.length_1)
+model.length_2 = st.sidebar.slider('length_2' , 1 , 500 , model.length_2)
 
 st.sidebar.text("_"*45)
 model.W_111 = st.sidebar.number_input('W_111' , -10.0 , 10.0 , model.W_111)
@@ -231,7 +231,7 @@ model.W_311 = st.sidebar.number_input('W_311' , -10.0 , 10.0 , model.W_311)
 model.W_312 = st.sidebar.number_input('W_312' , -10.0 , 10.0 , model.W_312)
 
 st.sidebar.text("_"*45)
-model.pair_data = st.sidebar.text_input('data' , "MATIC-PERP")
+model.pair_data = st.sidebar.text_input('data' , model.pair_data)
 model.timeframe = st.sidebar.selectbox('timeframe',('1h' , '5m' , '15m' , '1h', '4h' ,'1d'))
 model.start_test =  np.datetime64(st.sidebar.date_input('start_test', value= dt.datetime(2020, 7, 4, 0, 0)))
 
