@@ -103,11 +103,12 @@ class Run_model :
             dataset['input_2'] = dataset.ta(kind=self.input_2 , length= self.length_2 , scalar=1 , append=False)  
         #_______________________________________________________________________________  
         dataset = dataset.dropna() ; dataset = dataset.fillna(0)
-        sc = MinMaxScaler() ; X = sc.fit_transform(dataset)
-        dataset = pd.DataFrame(X , columns = dataset.columns , index=dataset.index)
         dataset['y_Reg'] = dataset['OHLC4'].shift(-1).fillna(dataset.OHLC4[-1])
-        X = dataset.iloc[ : , 6:-1]  ;  y_Reg = dataset.iloc[ : ,[ -1]] 
-        return  X  , y_Reg , dataset
+        X_con = dataset.iloc[ : , 6:-1]  ;  y_Reg_con = dataset.iloc[ : ,[ -1]] 
+        sc = MinMaxScaler() ; X = sc.fit_transform(X_con)  ;  y_Reg = sc.fit_transform(y_Reg_con)
+        dataset = pd.concat([dataset.iloc[ : , :6]  , pd.DataFrame(X , index=X_con.index  , columns=X_con.columns) ,
+                             pd.DataFrame(y_Reg , index=y_Reg_con.index  , columns=y_Reg_con.columns)] , axis=1)
+        return X , y_Reg , dataset
     
     @property  
     def deep (self):
