@@ -22,35 +22,43 @@ class Run_model :
         self.pair_trade = 'TOMO-PERPETUAL'
         self.apiKey ="AtdG0K3k"
         self.secret ="lItUXWckP2PNN-uPnrP_h_0dsctCXdFVP9x73bwo3Nc"
-
-        self.W_111 =  -0.2771134
-        self.W_112 =  -0.43569487
-        self.W_121 =   0.52600056
-        self.W_122 =   0.6389693
-        self.W_131 =  -0.33363444
-        self.W_132 =  -0.45055377
+        self.swish  = lambda  x :  x/(1-np.exp(-x))
         
-        self.W_211 =  -0.39374605
-        self.W_212 =   0.5141762
-        self.W_213 =  -0.38840476
+        self.W_111 =  -0.32599896
+        self.W_112 =  -0.4694649
+        self.B_111 =   0.04066495
         
-        self.W_221 =  -0.38225
-        self.W_222 =   0.45647234
-        self.W_223 =  -0.33715075
+        self.W_121 =  -0.38749605
+        self.W_122 =  -0.48529604
+        self.B_121 =   0.06805305
         
-        self.W_311 =   0.73987114
-        self.W_312 =   0.55479264
+        self.W_131 =  -0.3519803
+        self.W_132 =  -0.45930058
+        self.B_131 =   0.04629803
+        
+        self.W_211 =  -0.47773185
+        self.W_212 =  -0.47212452
+        self.W_213 =  -0.4639787
+        self.B_211 =   0.14417522
+        
+        self.W_221 =  -0.43355095
+        self.W_222 =  -0.3907271
+        self.W_223 =  -0.43036905
+        self.B_221 =   0.13449003
+        
+        self.W_311 =   0.70195895
+        self.W_312 =   1.5475612
+        self.B_311 =   0.11495861
 
         self.start_capital = 225.00
         self.sleep = 3
         self.timeframe = "1h"  
         self.limit = 500
         self.start_test = dt.datetime(2020, 7 , 4 , 0 , 0)
-        self.length_1 = 494
-        self.length_2 = 50
+        self.length_1 = 489
+        self.length_2 = 121
         self.input_1  = 'obv'
         self.input_2  = 'ad'
-        self.swish  = lambda  x :  x/(1-np.exp(-x))
         
     @property
     def ex_api (self):
@@ -83,7 +91,7 @@ class Run_model :
         def  SHA(x) :
             v =  SHA256(x) ;v = v.random(self.length_1) ;v = v[- (np.random.randint(0 , len(v) ,1))[0]]
             return v
-
+        #_____________________________________________________________________________
         if self.input_1 == 'jv':
             dataset['input_1'] = dataset.OHLC4.map(lambda x : s.jv(np.log(self.length_1) , x ))
         elif self.input_1 == 'seed': 
@@ -114,16 +122,17 @@ class Run_model :
     def deep (self):
         _ , _ , dataset = self.talib 
         dataset['Dense_11']  = dataset.apply((lambda x : self.swish(((self.W_111 * x.input_1)+(self.W_112 * x.input_2)
-                                                                  +  0.02223763))) , axis=1)     
+                                                                  +  self.B_111 ))) , axis=1)     
         dataset['Dense_12']  = dataset.apply((lambda x : self.swish(((self.W_121 * x.input_1)+(self.W_122 * x.input_2)
-                                                                  +  0.2547707))) , axis=1)
+                                                                  +  self.B_121 ))) , axis=1)
         dataset['Dense_13']  = dataset.apply((lambda x : self.swish(((self.W_131 * x.input_1)+(self.W_132 * x.input_2)
-                                                                  +  0.04933851))) , axis=1)
+                                                                  +  self.B_131 ))) , axis=1)
         dataset['Dense_21']  = dataset.apply((lambda x : self.swish(((self.W_211 * x.Dense_11)+(self.W_212 * x.Dense_12)+(self.W_213 * x.Dense_13)
-                                                                  +  0.13659982))), axis=1)
+                                                                  +  self.B_211 ))), axis=1)
         dataset['Dense_22']  = dataset.apply((lambda x : self.swish(((self.W_221 * x.Dense_11)+(self.W_222 * x.Dense_12)+(self.W_223 * x.Dense_13)
-                                                                  +  0.13744292))), axis=1)  
-        dataset['Output']   =  dataset.apply((lambda x : (((self.W_311) * x.Dense_21))+((self.W_312) * x.Dense_22) + 0.11320292) , axis=1)
+                                                                  +  self.B_221 ))), axis=1)  
+        dataset['Output']   =  dataset.apply((lambda x : (((self.W_311) * x.Dense_21))+((self.W_312) * x.Dense_22)
+                                                                  +  self.B_311 ) , axis=1)
         dataset['Predict']  =  dataset.Output.shift(1) <  dataset.Output.shift(0)
         dataset = dataset.dropna()
         return dataset
@@ -209,8 +218,8 @@ model.input_1 = selectbox(1 ,'obv')
 model.input_2 = selectbox(2 ,'ad')
 
 st.sidebar.text("_"*45)
-model.length_1 = st.sidebar.slider('length_1' , 1 , 500 , 494)
-model.length_2 = st.sidebar.slider('length_2' , 1 , 500 , 50)
+model.length_1 = st.sidebar.slider('length_1' , 1 , 500 , 489)
+model.length_2 = st.sidebar.slider('length_2' , 1 , 500 , 121)
 
 st.sidebar.text("_"*45)
 model.W_111 = st.sidebar.number_input('W_111' , -10.0 , 10.0 , model.W_111)
