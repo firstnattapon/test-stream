@@ -90,7 +90,7 @@ class Run_model :
         def  SHA(x) :
             v =  SHA256(x) ;v = v.random(self.length_1) ;v = v[- (np.random.randint(0 , len(v) ,1))[0]]
             return v
-        #_____________________________________________________________________________
+
         if self.input_1 == 'jv':
             dataset['input_1'] = dataset.OHLC4.map(lambda x : s.jv(np.log(self.length_1) , x ))
         elif self.input_1 == 'seed': 
@@ -98,7 +98,7 @@ class Run_model :
         elif self.input_1 == 'nextprime':
             dataset['input_1'] = dataset.OHLC4.map(lambda x : nextprime(x*10 , self.length_1))
         else:
-            dataset['input_1'] = dataset.ta(kind=self.input_1 , length= self.length_1 , scalar=1 , append=False)
+            dataset.ta(kind=self.input_1 , length= self.length_1 , scalar=1 , append=True)
         #_____________________________________________________________________________
         if self.input_2 == 'jv':
             dataset['input_2'] = dataset.OHLC4.map(lambda x : s.jv(np.log(self.length_2) , x))
@@ -107,7 +107,7 @@ class Run_model :
         elif self.input_2 == 'nextprime':
             dataset['input_2'] = dataset.OHLC4.map(lambda x : nextprime( x*10 , self.length_2))
         else:
-            dataset['input_2'] = dataset.ta(kind=self.input_2 , length= self.length_2 , scalar=1 , append=False)  
+            dataset.ta(kind=self.input_2 , length= self.length_2 , scalar=1 , append=True )  
         #_______________________________________________________________________________  
         dataset = dataset.dropna() ; dataset = dataset.fillna(0)
         dataset['y_Reg'] = dataset['OHLC4'].shift(-1).fillna(dataset.OHLC4[-1])
@@ -120,9 +120,9 @@ class Run_model :
     @property  
     def deep (self):
         _ , _ , dataset = self.talib 
-        dataset['Dense_11']  = dataset.apply((lambda x : self.swish(((self.W_111 * x.input_1) + (self.W_112 * x.input_2) +  self.B_111 ))) , axis=1)     
-        dataset['Dense_12']  = dataset.apply((lambda x : self.swish(((self.W_121 * x.input_1) + (self.W_122 * x.input_2) +  self.B_121 ))) , axis=1)
-        dataset['Dense_13']  = dataset.apply((lambda x : self.swish(((self.W_131 * x.input_1) + (self.W_132 * x.input_2) +  self.B_131 ))) , axis=1)
+        dataset['Dense_11']  = dataset.apply((lambda x : self.swish(((self.W_111 * x.DEC_82) + (self.W_112 * x.CMO_41) +  self.B_111 ))) , axis=1)     
+        dataset['Dense_12']  = dataset.apply((lambda x : self.swish(((self.W_121 * x.DEC_82) + (self.W_122 * x.CMO_41) +  self.B_121 ))) , axis=1)
+        dataset['Dense_13']  = dataset.apply((lambda x : self.swish(((self.W_131 * x.DEC_82) + (self.W_132 * x.CMO_41) +  self.B_131 ))) , axis=1)
         dataset['Dense_21']  = dataset.apply((lambda x : self.swish(((self.W_211 * x.Dense_11)+(self.W_212 * x.Dense_12)+(self.W_213 * x.Dense_13) +  self.B_211 ))), axis=1)
         dataset['Dense_22']  = dataset.apply((lambda x : self.swish(((self.W_221 * x.Dense_11)+(self.W_222 * x.Dense_12)+(self.W_223 * x.Dense_13) +  self.B_221 ))), axis=1)  
         dataset['Output']   =  dataset.apply((lambda x : (((self.W_311) * x.Dense_21))+((self.W_312) * x.Dense_22) +  self.B_311 ) , axis=1)
