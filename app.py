@@ -83,15 +83,15 @@ class Run_model :
         def  SHA(x) :
             v =  SHA256(x) ;v = v.random(self.length_1) ;v = v[- (np.random.randint(0 , len(v) ,1))[0]]
             return v
-        #_______________________________________________________________________________  
+
         if self.input_1 == 'jv':
             dataset['input_1'] = dataset.OHLC4.map(lambda x : s.jv(np.log(self.length_1) , x ))
-        elif self.input_1 == 'seed':
+        elif self.input_1 == 'seed': 
             dataset['input_1'] = dataset.OHLC4.map(lambda  x : SHA(x))
         elif self.input_1 == 'nextprime':
             dataset['input_1'] = dataset.OHLC4.map(lambda x : nextprime(x*10 , self.length_1))
         else:
-            dataset['input_1'] = dataset.ta(kind=self.input_1 , length= self.length_1 , scalar=1 , append=False)
+            dataset.ta(kind=self.input_1 , length= self.length_1 , scalar=1 , append=True)
         #_____________________________________________________________________________
         if self.input_2 == 'jv':
             dataset['input_2'] = dataset.OHLC4.map(lambda x : s.jv(np.log(self.length_2) , x))
@@ -100,18 +100,18 @@ class Run_model :
         elif self.input_2 == 'nextprime':
             dataset['input_2'] = dataset.OHLC4.map(lambda x : nextprime( x*10 , self.length_2))
         else:
-            dataset['input_2'] = dataset.ta(kind=self.input_2 , length= self.length_2 , scalar=1 , append=False )  
+            dataset.ta(kind=self.input_2 , length= self.length_2 , scalar=1 , append=True )  
         #_______________________________________________________________________________  
-
         dataset = dataset.dropna() ; dataset = dataset.fillna(0)
+        sc = MinMaxScaler() ; X = sc.fit_transform(dataset)
+        dataset = pd.DataFrame(X , columns = dataset.columns , index=dataset.index )
         dataset['y_Reg'] = dataset['OHLC4'].shift(-1).fillna(dataset.OHLC4[-1])
         X = dataset.iloc[ : , 6:-1]  ;  y_Reg = dataset.iloc[ : ,[ -1]] 
-        sc = MinMaxScaler() ; X = sc.fit_transform(X)  ;  y_Reg = sc.fit_transform(y_Reg)
-        return X , y_Reg , dataset
-
+        return  X.values  , y_Reg.values , dataset
+    
     @property  
     def deep (self):
-        _,_, dataset = self.talib 
+        X , y_Reg , dataset = self.talib 
         dataset['Dense_11']  = dataset.apply((lambda x : self.swish(((self.W_111 * x.input_1)+(self.W_112 * x.input_2)
                                                                   +  0.02223763))) , axis=1)     
         dataset['Dense_12']  = dataset.apply((lambda x : self.swish(((self.W_121 * x.input_1)+(self.W_122 * x.input_2)
