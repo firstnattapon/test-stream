@@ -21,15 +21,24 @@ class Run_model :
         self.pair_trade = 'TOMO-PERPETUAL'
         self.apiKey ="AtdG0K3k"
         self.secret ="lItUXWckP2PNN-uPnrP_h_0dsctCXdFVP9x73bwo3Nc"
-        self.W_11 =  -0.0269416
-        self.W_12 =  -0.02510289
-        self.W_21 =   0.1780024
-        self.W_22 =   0.16893668
-        self.W_31 =  -0.04359554
-        self.W_32 =   0.01950381
-        self.W_41 =   0.8075782
-        self.W_42 =   1.0319991
-        self.W_43 =  -0.1520603
+
+        self.W_111 =  -0.2771134
+        self.W_112 =  -0.43569487
+        self.W_121 =   0.52600056
+        self.W_122 =   0.6389693
+        self.W_131 =  -0.33363444
+        self.W_132 =  -0.45055377
+        
+        self.W_211 =  -0.39374605
+        self.W_212 =   0.5141762
+        self.W_213 =  -0.38840476
+        self.W_221 =  -0.38225
+        self.W_222 =   0.45647234
+        self.W_223 =  -0.33715075
+        
+        self.W_311 =   0.73987114
+        self.W_312 =   0.55479264
+
         self.start_capital = 225.00
         self.sleep = 3
         self.timeframe = "1h"  
@@ -39,6 +48,7 @@ class Run_model :
         self.length_2 = 86
         self.input_1  = 'rma'
         self.input_2  = 'rsi'
+        self.swish  = lambda  x :  x/(1-np.exp(-x))
         
     @property
     def ex_api (self):
@@ -68,35 +78,49 @@ class Run_model :
     def talib (self): # ตัวแปร
         dataset = self.dataset
         dataset.ta.ohlc4(append=True)
-        
+        def  SHA(x) :
+            v =  SHA256(x) ;v = v.random(self.length_1) ;v = v[- (np.random.randint(0 , len(v) ,1))[0]]
+            return v
+        #_______________________________________________________________________________  
         if self.input_1 == 'jv':
             dataset['input_1'] = dataset.OHLC4.map(lambda x : s.jv(np.log(self.length_1) , x ))
+        elif self.input_1 == 'seed': 
+            dataset['input_1'] = dataset.OHLC4.map(lambda  x : SHA(x))
         elif self.input_1 == 'nextprime':
             dataset['input_1'] = dataset.OHLC4.map(lambda x : nextprime(x*10 , self.length_1))
         else:
-            dataset['input_1'] = dataset.ta(kind=self.input_1 , length= self.length_1 , scalar=1 , append=False)
-            
-        #______________
-            
+            dataset.ta(kind=self.input_1 , length= self.length_1 , scalar=1 , append=True)
+        #_____________________________________________________________________________
         if self.input_2 == 'jv':
             dataset['input_2'] = dataset.OHLC4.map(lambda x : s.jv(np.log(self.length_2) , x))
+        elif self.input_2 == 'seed':
+            dataset['input_2'] = dataset.OHLC4.map(lambda  x : SHA(x))
         elif self.input_2 == 'nextprime':
             dataset['input_2'] = dataset.OHLC4.map(lambda x : nextprime( x*10 , self.length_2))
         else:
-            dataset['input_2'] = dataset.ta(kind=self.input_2 , length= self.length_2 , scalar=1 , append=False)   
-            
-        dataset = dataset.fillna(0)
+            dataset.ta(kind=self.input_2 , length= self.length_2 , scalar=1 , append=True )  
+        #_______________________________________________________________________________  
+
+        dataset = dataset.dropna() ; dataset = dataset.fillna(0)
         dataset['y_Reg'] = dataset['OHLC4'].shift(-1).fillna(dataset.OHLC4[-1])
-        X = dataset.iloc[ : , 1:-1]  ;  y_Reg = dataset.iloc[ : ,[ -1]] 
+        X = dataset.iloc[ : , 6:-1]  ;  y_Reg = dataset.iloc[ : ,[ -1]] 
+        sc = MinMaxScaler() ; X = sc.fit_transform(X)  ;  y_Reg = sc.fit_transform(y_Reg)
         return X , y_Reg , dataset
-        
+
     @property  
     def deep (self):
         _,_, dataset = self.talib 
-        dataset['Dense_1']  = dataset.apply((lambda x :  max(0, ((self.W_11 * x.input_1)+(self.W_12  * x.input_2)+  0.00000000))) , axis=1)
-        dataset['Dense_2']  = dataset.apply((lambda x :  max(0, ((self.W_21 * x.input_1)+(self.W_22  * x.input_2)+  0.16121943))) , axis=1)
-        dataset['Dense_3']  = dataset.apply((lambda x :  max(0, ((self.W_31 * x.input_1)+(self.W_32  * x.input_2)+ -0.02214672))) , axis=1)
-        dataset['Output']   =  dataset.apply((lambda x : (((self.W_41) * x.Dense_1))+((self.W_42) * x.Dense_2)+((self.W_43)* x.Dense_3) + 0.15152684) , axis=1)
+        dataset['Dense_11']  = dataset.apply((lambda x : self.swish(((self.W_111 * x.input_1)+(self.W_112 * x.input_2)
+                                                                  +  0.02223763))) , axis=1)     
+        dataset['Dense_12']  = dataset.apply((lambda x : self.swish(((self.W_121 * x.input_1)+(self.W_122 * x.input_2)
+                                                                  +  0.2547707))) , axis=1)
+        dataset['Dense_13']  = dataset.apply((lambda x : self.swish(((self.W_131 * x.input_1)+(self.W_132 * x.input_2)
+                                                                  +  0.04933851))) , axis=1)
+        dataset['Dense_21']  = dataset.apply((lambda x : self.swish(((self.W_211 * x.Dense_11)+(self.W_212 * x.Dense_12)+(self.W_213 * x.Dense_13)
+                                                                  +  0.13659982))), axis=1)
+        dataset['Dense_22']  = dataset.apply((lambda x : self.swish(((self.W_221 * x.Dense_11)+(self.W_222 * x.Dense_12)+(self.W_223 * x.Dense_13)
+                                                                  +  0.13744292))), axis=1)  
+        dataset['Output']   =  dataset.apply((lambda x : (((self.W_311) * x.Dense_21))+((self.W_312) * x.Dense_22) + 0.11320292) , axis=1)
         dataset['Predict']  =  dataset.Output.shift(1) <  dataset.Output.shift(0)
         dataset = dataset.dropna()
         return dataset
@@ -167,21 +191,23 @@ class Run_model :
 model =  Run_model()
 st.sidebar.header('(2020, 7 , 4) \n')
 selectbox = lambda x, y : st.sidebar.selectbox('input_{}'.format(x),
-    ( y ,'ad', 'ao', 'atr', 'bop', 'cci', 'cg', 'cmf', 'cmo', 'coppock', 'decreasing', 
-    'dema', 'dpo', 'efi', 'ema', 'eom', 'fisher', 'fwma', 'hl2', 'hlc3', 'hma', 'increasing', 
-    'kama', 'kurtosis', 'linear_decay', 'linreg', 'log_return', 'mad', 'median', 'mfi', 
-    'midpoint', 'midprice', 'mom', 'natr', 'nvi', 'obv', 'ohlc4', 'percent_return', 'pvi', 
-    'pvol', 'pvt', 'pwma', 'qstick', 'quantile', 'rma', 'roc', 'rsi', 'sinwma', 'skew', 'slope', 
-    'sma', 'stdev', 'swma', 'jv' , 't3', 'tema' ,'trima', 'trix', 'true_range', 'uo', 
-    'variance', 'vwap', 'vwma', 'willr', 'wma', 'zlma', 'zscore' ,'nextprime'))
+    ( y ,'accbands','ad','adx','ao','aroon','atr','bbands',
+        'bop','cci','cg','cmf','cmo','coppock','cross','decreasing','dema',
+        'donchian','dpo','efi','ema','eom','fwma','hl2','hlc3','hma','ichimoku',
+        'increasing','kc','kst','kurtosis','linear_decay','linreg','log_return',
+        'long_run','mad','median','mfi','midpoint','midprice','mom','natr',
+        'nvi','obv','ohlc4','percent_return','pvi','pvol','pvt','pwma','qstick',
+        'quantile','rma','roc','rsi','rvi','short_run','sinwma','skew','slope','sma',
+        'stdev','stoch','swma','t3','tema','trima','true_range','uo','variance',
+        'vortex','vp','vwap','vwma','willr','wma','zlma','zscore' ,'jv','seed','nextprime'))
 
 st.sidebar.text("_"*45)
-model.input_1 = selectbox(1 ,'rma')
-model.input_2 = selectbox(2 ,'rsi')
+model.input_1 = selectbox(1 ,'obv')
+model.input_2 = selectbox(2 ,'ad')
 
 st.sidebar.text("_"*45)
-model.length_1 = st.sidebar.slider('length_1' , 1 , 500 , 237)
-model.length_2 = st.sidebar.slider('length_2' , 1 , 500 , 86)
+model.length_1 = st.sidebar.slider('length_1' , 1 , 500 , 494)
+model.length_2 = st.sidebar.slider('length_2' , 1 , 500 , 50)
 
 st.sidebar.text("_"*45)
 model.W_11 = st.sidebar.number_input('W_11' , -10.0 , 10.0 , model.W_11)
@@ -206,5 +232,3 @@ if st.checkbox('df_plot'):
     st.write(pyplot.iloc[: , :])
 st.text("")
 st.write('\n\nhttps://github.com/firstnattapon/test-stream/edit/master/app.py')
-
-
