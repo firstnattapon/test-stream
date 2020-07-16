@@ -33,6 +33,7 @@ class Run_model :
         self.W_211 =  -0.39374605
         self.W_212 =   0.5141762
         self.W_213 =  -0.38840476
+        
         self.W_221 =  -0.38225
         self.W_222 =   0.45647234
         self.W_223 =  -0.33715075
@@ -45,10 +46,10 @@ class Run_model :
         self.timeframe = "1h"  
         self.limit = 500
         self.start_test = dt.datetime(2020, 7 , 4 , 0 , 0)
-        self.length_1 = 237
-        self.length_2 = 86
-        self.input_1  = 'rma'
-        self.input_2  = 'rsi'
+        self.length_1 = 494
+        self.length_2 = 50
+        self.input_1  = 'obv'
+        self.input_2  = 'ad'
         self.swish  = lambda  x :  x/(1-np.exp(-x))
         
     @property
@@ -85,7 +86,7 @@ class Run_model :
         #_______________________________________________________________________________  
         if self.input_1 == 'jv':
             dataset['input_1'] = dataset.OHLC4.map(lambda x : s.jv(np.log(self.length_1) , x ))
-        elif self.input_1 == 'seed': 
+        elif self.input_1 == 'seed':
             dataset['input_1'] = dataset.OHLC4.map(lambda  x : SHA(x))
         elif self.input_1 == 'nextprime':
             dataset['input_1'] = dataset.OHLC4.map(lambda x : nextprime(x*10 , self.length_1))
