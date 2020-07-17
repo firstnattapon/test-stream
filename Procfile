@@ -1,1 +1,1 @@
-﻿web: sh setup.sh && streamlit run MATIC.py
+web: sh setup.sh && streamlit run TOMO.py
